@@ -15,7 +15,9 @@ class DetailsScreen extends React.Component {
     ),
   });
 
+  // Setto i valori di defoult, che mi serviranno per la gestione dei timer
   state = {
+    // Valori per il timer del turno
     timer: null,
     sec: '00',
     miliseconds: '00',
@@ -24,6 +26,7 @@ class DetailsScreen extends React.Component {
     turno: 'Inizio Turno',
     startDisabled: true,
     stopDisabled: false,
+    // Valori di default per il timer delle attavità
     timerA: null,
     secA: '00',
     milisecondsA: '00',

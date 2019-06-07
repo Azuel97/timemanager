@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
 
+// Utilizzo di Realm
 import {getUser} from '../store/models/User'
 import realm from '../store/models/User'
 
@@ -8,20 +9,22 @@ var utenti = ["Azuel", "Renato", "Gianluca"];
 
 class Login extends React.Component {
 
-    // componentDidMount() {
-    //     alert(getUser(0));
-    // }
-
     state = {
        email: '',
        password: ''
     }
+
+    // Recupero dall'inserimento il nome/email
     handleEmail = (text) => {
        this.setState({ email: text })
     }
+
+    // Recupero dall'inserimento la password
     handlePassword = (text) => {
        this.setState({ password: text })
     }
+
+    // 
     login = (email, pass) => {
        nomeUtente = email;
        // Controllo sull'inserimento delle credenziali
@@ -67,9 +70,7 @@ class Login extends React.Component {
              
              <TouchableOpacity
                 style = {styles.submitButton}
-                onPress = {
-                   () => this.login(this.state.email, this.state.password)
-                }>
+                onPress = {() => this.login(this.state.email, this.state.password)}>
                 <Text style = {styles.submitButtonText}> Login </Text>
              </TouchableOpacity>
           </View>

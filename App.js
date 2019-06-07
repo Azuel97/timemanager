@@ -6,6 +6,7 @@ import DetailsScreen from "./src/navigation/DetailsScreen"
 import SearchActivity from "./src/navigation/SearchActivity"
 import CalendarActivity from './src/navigation/CalendarActivity';
 
+// Gestione delle navigation
 const AppNavigator = createStackNavigator(
 {
   Home: Login,

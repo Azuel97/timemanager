@@ -14,16 +14,18 @@ class SearchActivity extends React.Component {
 
     // Alert su click nei Task
     getListViewItem = (item) => {  
-      Alert.alert(item.name);  
+      Alert.alert(item.title);  
     }  
 
     constructor(props) {
       super(props);
-      //setting default state
+      // Settaggio di default
       this.state = { isLoading: true, text: '' };
+      // Array su cui salvo i dati che preleverò dal json
       this.arrayholder = [];
     }
    
+    // Eseguo il fetch dei dati quando viene montato la screen
     componentDidMount() {
       return fetch('https://jsonplaceholder.typicode.com/posts')
         .then(response => response.json())
@@ -42,17 +44,20 @@ class SearchActivity extends React.Component {
           console.error(error);
         });
     }
+
+    // Funzione di filtraggio all'interno dell'array, su cui ci sono all'interno
+    // tutti i dati recuperati dalla fetch
     SearchFilterFunction(text) {
-      //Passo il text all'inputtext
+      // Passo il text all'inputtext
       const newData = this.arrayholder.filter(function(item) {
-        //Applico il filtro
+        // Applico il filtro
         const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
       this.setState({
-        //setting the filtered newData on datasource
-        //After setting the data it will automatically re-render the view
+        // Inserscio i dati filtrati al'interno del datasource
+        // E dopo vengono ri-renderizzati
         dataSource: newData,
         text: text,
       });
