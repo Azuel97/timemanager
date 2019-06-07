@@ -14,6 +14,7 @@ class CalendarActivity extends React.Component {
         }
       });
 
+    // Vado ad utlizzare il componente esterno CalendarList
     render() {
         return (
            <View style = {styles.container}>

@@ -220,7 +220,7 @@ constructor( props ) {
         <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text>
         
 
-        <Text style={{position:'absolute',top:280,fontFamily:'Arial', fontSize:18}}>TASK</Text>
+        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>TASK</Text>
         <TouchableOpacity style={styles.buttonTask} onPress={() => this.goToTask()}>
            <Text style = {styles.submitButtonText}> Visualizza Task </Text>
         </TouchableOpacity>
@@ -230,7 +230,7 @@ constructor( props ) {
            <Text style = {styles.submitButtonText}> {this.state.attivita} </Text>
         </TouchableOpacity>
 
-        <Text style={{position:'absolute',top:515,fontFamily:'Arial', fontSize:18}}>TURNO</Text>
+        <Text style={{position:'absolute',top:520,fontFamily:'Arial', fontSize:18}}>TURNO</Text>
         <TouchableOpacity style={styles.nuovoTurno} onPress={() => this.startTurno()}>
            <Text style = {styles.submitButtonText}> {this.state.turno} </Text>
         </TouchableOpacity>

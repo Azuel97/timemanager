@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
 
-// Utilizzo di Realm
+// Utilizzo di Realm, per la persistenza dei dati
 import {getUser} from '../store/models/User'
 import realm from '../store/models/User'
 
+// Array che contiene i nomi degli utenti
 var utenti = ["Azuel", "Renato", "Gianluca"];
 
 class Login extends React.Component {
 
+    // Data that is going to change, In general, you should initialize,
+    // state in the constructor, and then call setState when you want to change it.
     state = {
        email: '',
        password: ''
@@ -24,7 +27,7 @@ class Login extends React.Component {
        this.setState({ password: text })
     }
 
-    // 
+    // Vado a gestire e controllore l'inserimento delle credenziali dell'utenteßß
     login = (email, pass) => {
        nomeUtente = email;
        // Controllo sull'inserimento delle credenziali
