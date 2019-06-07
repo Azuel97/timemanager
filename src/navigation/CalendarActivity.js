@@ -15,6 +15,7 @@ class CalendarActivity extends React.Component {
       });
 
     // Vado ad utlizzare il componente esterno CalendarList
+    // e la scrollview per tornare alla route precedente
     render() {
         return (
            <View style = {styles.container}>
