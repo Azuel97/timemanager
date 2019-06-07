@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
 
+import {getUser} from '../store/models/User'
+import realm from '../store/models/User'
+
 var utenti = ["Azuel", "Renato", "Gianluca"];
 
 class Login extends React.Component {
+
+    // componentDidMount() {
+    //     alert(getUser(0));
+    // }
 
     state = {
        email: '',
@@ -16,9 +23,7 @@ class Login extends React.Component {
        this.setState({ password: text })
     }
     login = (email, pass) => {
-         nomeUtente = email;
-       //if(UsersController.find(email))
-       //  alert('OK')
+       nomeUtente = email;
        // Controllo sull'inserimento delle credenziali
        let i;
        for(i=0; i<utenti.length; i++){
@@ -26,7 +31,6 @@ class Login extends React.Component {
                 this.props.navigation.navigate('Details')
             }
         }
-        //alert('ERRORE')
     }
  
     // Modifica la navigationBar

@@ -18,6 +18,7 @@ class CalendarActivity extends React.Component {
         return (
            <View style = {styles.container}>
               <CalendarList current={'2019-06-09'}
+                firstDay={1}
                  markingType={'custom'}
                  markedDates={{
                     '2019-06-01': {
@@ -30,7 +31,7 @@ class CalendarActivity extends React.Component {
                    '2019-06-02': {
                      customStyles: {
                        container: {
-                         backgroundColor: 'lightgreen'
+                         backgroundColor: 'lightgrey'
                        },
                      },
                    },
@@ -44,14 +45,14 @@ class CalendarActivity extends React.Component {
                   '2019-06-04': {
                     customStyles: {
                       container: {
-                        backgroundColor: '#FF6666'
+                        backgroundColor: 'lightgreen'
                       },
                     },
                   },
                   '2019-06-05': {
                     customStyles: {
                       container: {
-                        backgroundColor: 'lightgreen'
+                        backgroundColor: '#FF6666'
                       },
                     },
                   },
@@ -65,11 +66,18 @@ class CalendarActivity extends React.Component {
                   '2019-06-07': {
                     customStyles: {
                       container: {
-                        backgroundColor: 'lightgrey'
+                        backgroundColor: 'lightgreen'
                       },
                     },
                   },
                   '2019-06-08': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgrey'
+                      },
+                    },
+                  },
+                  '2019-06-09': {
                     customStyles: {
                       container: {
                         backgroundColor: 'lightgrey'

@@ -11,7 +11,7 @@ class DetailsScreen extends React.Component {
       backgroundColor: 'lightgrey'
     },
     headerRight:(
-      <Text style={{fontSize:30, marginRight:10}} >+</Text>
+      <Text style={{fontSize:30, marginRight:10}}>+</Text>
     ),
   });
 
@@ -72,12 +72,11 @@ constructor( props ) {
       }
   }
 
-
-  // Mettere in pausa il timer del turno
-  onButtonStop() {
-    clearInterval(this.state.timer);
-    this.setState({startDisabled: false, stopDisabled: true});
-  }
+    // Mettere in pausa il timer del turno
+    onButtonStop() {
+        clearInterval(this.state.timer);
+        this.setState({startDisabled: false, stopDisabled: true});
+    }
 
     // Mettere in pausa il timer dell'attività
     onButtonStopA() {
@@ -193,25 +192,25 @@ constructor( props ) {
 
         <Text style={{position:'absolute',top:150,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
         <View style={styles.CircleShapeView1}>
-          <Text>2</Text>
-        </View>
-        <View style={styles.CircleShapeView2}>
           <Text>3</Text>
         </View>
-        <View style={styles.CircleShapeView3}>
+        <View style={styles.CircleShapeView2}>
           <Text>4</Text>
         </View>
-        <View style={styles.CircleShapeView4}>
+        <View style={styles.CircleShapeView3}>
           <Text>5</Text>
         </View>
-        <View style={styles.CircleShapeView5}>
+        <View style={styles.CircleShapeView4}>
           <Text>6</Text>
         </View>
-        <View style={styles.CircleShapeView6}>
+        <View style={styles.CircleShapeView5}>
           <Text>7</Text>
         </View>
-        <View style={styles.CircleShapeView7}>
+        <View style={styles.CircleShapeView6}>
           <Text>8</Text>
+        </View>
+        <View style={styles.CircleShapeView7}>
+          <Text>9</Text>
         </View>
 
         <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
@@ -249,7 +248,8 @@ export default DetailsScreen;
        alignItems: 'center'
     },
     submitButtonText:{
-       color: 'white'
+       color: 'white',
+       fontSize:16
     },
     nuovaAttivita:{
      backgroundColor: 'grey',
