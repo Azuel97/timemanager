@@ -10,7 +10,7 @@ var utenti = ["Azuel", "Renato", "Gianluca"];
 
 class Login extends React.Component {
 
-    // Data that is going to change, In general, you should initialize,
+    // State is data that is going to change, in general, you should initialize,
     // state in the constructor, and then call setState when you want to change it.
     state = {
        email: '',

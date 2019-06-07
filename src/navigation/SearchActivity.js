@@ -84,9 +84,9 @@ class SearchActivity extends React.Component {
           {/* -- Uso della FlatList -- */}
           
           <FlatList
-            style={{position:'absolute',top:110,marginLeft:20}}
+            style={{position:'absolute',top:110,marginLeft:10}}
             data={this.state.dataSource}
-            renderItem={({item}) => <Text style={styles.item} onPress={this.getListViewItem.bind(this, item)} > • {item.title}</Text>}
+            renderItem={({item}) => <Text style={styles.item} onPress={this.getListViewItem.bind(this, item)} > ☆ {item.title}</Text>}
           />
   
         </View>

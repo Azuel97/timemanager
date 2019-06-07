@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, StyleSheet, FlatList } from 'react-native'
+import { View, Text, TextInput, StyleSheet, FlatList, ScrollView } from 'react-native'
 // Calendar component
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
@@ -18,6 +18,7 @@ class CalendarActivity extends React.Component {
     render() {
         return (
            <View style = {styles.container}>
+            <ScrollView horizontal={true}>
               <CalendarList current={'2019-06-09'}
                 firstDay={1}
                  markingType={'custom'}
@@ -86,6 +87,7 @@ class CalendarActivity extends React.Component {
                     },
                   },
                  }}/>
+              </ScrollView>
            </View>
         )
      }

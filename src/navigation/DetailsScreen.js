@@ -15,7 +15,7 @@ class DetailsScreen extends React.Component {
     ),
   });
 
-  // Setto i valori di defoult, che mi serviranno per la gestione dei timer
+  // Setto i valori di default, che mi serviranno per la gestione dei timer
   state = {
     // Valori per il timer del turno
     timer: null,
@@ -198,6 +198,7 @@ constructor( props ) {
         <Text style={{position:'absolute',top:120, left:165 ,fontFamily:'Arial', fontSize:14}}>Ore Lavoro</Text>
 
         <Text style={{position:'absolute',top:150,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
+        
         <View style={styles.CircleShapeView1}>
           <Text>3</Text>
         </View>
@@ -224,7 +225,7 @@ constructor( props ) {
         <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text>
 
 
-        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>TASK  - {mioTask} </Text>
+        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>TASK - {mioTask} </Text>
         <TouchableOpacity style={styles.buttonTask} onPress={() => this.goToTask()}>
            <Text style = {styles.submitButtonText}> Visualizza Task </Text>
         </TouchableOpacity>
