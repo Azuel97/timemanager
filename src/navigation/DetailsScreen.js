@@ -169,8 +169,12 @@ constructor( props ) {
         this.props.navigation.navigate('Search');
     }
 
-
   render() {
+
+    // Recupero del parametro passato dalla activity Search
+    const { navigation } = this.props;
+    const mioTask = navigation.getParam('myTask', '');
+
     return (
       <View style={{
             alignItems: "center",
@@ -218,9 +222,9 @@ constructor( props ) {
 
         <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
         <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text>
-        
 
-        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>TASK</Text>
+
+        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>TASK  - {mioTask} </Text>
         <TouchableOpacity style={styles.buttonTask} onPress={() => this.goToTask()}>
            <Text style = {styles.submitButtonText}> Visualizza Task </Text>
         </TouchableOpacity>

@@ -12,9 +12,13 @@ class SearchActivity extends React.Component {
       }
     });
 
-    // Alert su click nei Task
+    // Azione sul ckick degli item della Flatlist
     getListViewItem = (item) => {  
-      Alert.alert(item.title);  
+      // Passo alla activity details, passando anche come parametro aggiuntivo
+      // il titolo del task selezionato
+      this.props.navigation.navigate('Details', {
+        myTask: item.title,
+      });
     }  
 
     constructor(props) {
@@ -82,7 +86,7 @@ class SearchActivity extends React.Component {
           <FlatList
             style={{position:'absolute',top:110,marginLeft:20}}
             data={this.state.dataSource}
-          renderItem={({item}) => <Text style={styles.item} onPress={this.getListViewItem.bind(this, item)} > • {item.title}</Text>}
+            renderItem={({item}) => <Text style={styles.item} onPress={this.getListViewItem.bind(this, item)} > • {item.title}</Text>}
           />
   
         </View>
