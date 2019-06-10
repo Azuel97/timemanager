@@ -11,7 +11,7 @@ class DetailsScreen extends React.Component {
       backgroundColor: 'lightgrey'
     },
     headerRight:(
-      <Text style={{fontSize:30, marginRight:10}}>+</Text>
+      <Text style={{fontSize:30, marginRight:10}} onPress={() => {alert('Hai cliccato')}} >+</Text>
     ),
   });
 

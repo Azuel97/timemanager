@@ -5,11 +5,11 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Butt
 import {getUser} from '../store/models/User'
 import realm from '../store/models/User'
 
-// Array che contiene i nomi degli utenti
+// Array che contiene i nomi degli utenti, in maniera statica
 //var utenti = ["Azuel", "Rex", "Gianluca"];
 
 const Realm = require('realm');
-let utente = "Azuel";
+
 let utenteScelto;
 
 class Login extends React.Component {
@@ -115,7 +115,13 @@ class Login extends React.Component {
                 <Text style = {styles.submitButtonText}> Login </Text>
              </TouchableOpacity>
 
-            <Text>{info}</Text>
+             <TouchableOpacity
+                style = {styles.submitButton}
+                onPress = {() => {this.props.navigation.navigate('AddUser')}}>
+                <Text style = {styles.submitButtonText}> Add User </Text>
+             </TouchableOpacity>
+
+            {/* <Text>{info}</Text> */}
 
           </View>
        )

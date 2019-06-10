@@ -4,7 +4,8 @@ import { createStackNavigator, createAppContainer } from "react-navigation"
 import Login from "./src/navigation/Login"
 import DetailsScreen from "./src/navigation/DetailsScreen"
 import SearchActivity from "./src/navigation/SearchActivity"
-import CalendarActivity from './src/navigation/CalendarActivity';
+import CalendarActivity from './src/navigation/CalendarActivity'
+import AddUsers from './src/navigation/AddUsers'
 
 // Gestione della navigazione tra le varie schermate
 const AppNavigator = createStackNavigator(
@@ -12,7 +13,8 @@ const AppNavigator = createStackNavigator(
   Home: Login,
   Details: DetailsScreen,
   Search: SearchActivity,
-  Calendar: CalendarActivity
+  Calendar: CalendarActivity,
+  AddUser: AddUsers
 },
 {
   initialRouteName: "Home"

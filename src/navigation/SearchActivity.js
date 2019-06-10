@@ -28,8 +28,8 @@ class SearchActivity extends React.Component {
       // Array su cui salvo i dati che preleverò dal json
       this.arrayholder = [];
     }
-   
-    // Eseguo il fetch dei dati quando viene montato la screen
+    
+    // Eseguo il fetch dei dati dopo che avviene la renderizzazione della UI
     componentDidMount() {
       return fetch('https://jsonplaceholder.typicode.com/posts')
         .then(response => response.json())
