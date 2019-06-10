@@ -6,7 +6,11 @@ import {getUser} from '../store/models/User'
 import realm from '../store/models/User'
 
 // Array che contiene i nomi degli utenti
-var utenti = ["Azuel", "Renato", "Gianluca"];
+//var utenti = ["Azuel", "Rex", "Gianluca"];
+
+const Realm = require('realm');
+let utente = "Azuel";
+let utenteScelto;
 
 class Login extends React.Component {
 
@@ -14,8 +18,25 @@ class Login extends React.Component {
     // state in the constructor, and then call setState when you want to change it.
     state = {
        email: '',
-       password: ''
+       password: '',
+       realm: null
     }
+
+    // Collegamento con il DB di realm
+    componentDidMount() {
+        Realm.open({
+          schema: [{name: 'Ute', properties: {name: 'string'}}]
+        }).then(realm => {
+        //   realm.write(() => {
+               // Creo un nuovo utente    
+        //     realm.create('Ute', {name: 'Gianluca'});
+        //   });
+        this.setState({ realm });
+
+        // Query sulla ricerca del nome dell'utente
+        utenteScelto = "";
+        });
+      }
 
     // Recupero dall'inserimento il nome/email
     handleEmail = (text) => {
@@ -30,13 +51,24 @@ class Login extends React.Component {
     // Vado a gestire e controllore l'inserimento delle credenziali dell'utenteßß
     login = (email, pass) => {
        nomeUtente = email;
-       // Controllo sull'inserimento delle credenziali
-       let i;
-       for(i=0; i<utenti.length; i++){
-            if((email === utenti[i]) && (pass === '1234567')){
-                this.props.navigation.navigate('Details')
+        
+       // Riapro il DB e controllo se l'utente è registrato all'interno del mio databsae
+       Realm.open({
+        schema: [{name: 'Ute', properties: {name: 'string'}}]
+       }).then(realm => {
+
+       // Query sulla ricerca del nome dell'utente, tramite passaggio di una variabile
+       utenteScelto = realm.objects('Ute').filtered('name == $0', email);
+
+       });
+
+       // Ciclo all'interno della risposta della query
+       for (let p of utenteScelto) {
+            // salert(`${p.name}`);
+            if((email === p.name) && (pass === '1234567')){
+                    this.props.navigation.navigate('Details')
             }
-        }
+        } 
     }
  
     // Modifica la navigationBar
@@ -50,6 +82,12 @@ class Login extends React.Component {
    });
  
     render() {
+
+        // Log di verifa di quanti elementi ci sono all'interno del DB
+        const info = this.state.realm
+            ? 'Number of users in this Realm: ' + this.state.realm.objects('Ute').length
+            : 'Loading...';
+
        return (
           <View style = {styles.container}>
              <Image
@@ -76,6 +114,9 @@ class Login extends React.Component {
                 onPress = {() => this.login(this.state.email, this.state.password)}>
                 <Text style = {styles.submitButtonText}> Login </Text>
              </TouchableOpacity>
+
+            <Text>{info}</Text>
+
           </View>
        )
     }
