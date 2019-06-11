@@ -175,6 +175,10 @@ constructor( props ) {
     const { navigation } = this.props;
     const mioTask = navigation.getParam('myTask', '');
 
+    // Recupero la data attuale
+    var today = new Date();
+    date = today.getDate()
+
     return (
       <View style={{
             alignItems: "center",
@@ -200,25 +204,25 @@ constructor( props ) {
         <Text style={{position:'absolute',top:150,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
         
         <View style={styles.CircleShapeView1}>
-          <Text>3</Text>
+          <Text>{date-6}</Text>
         </View>
         <View style={styles.CircleShapeView2}>
-          <Text>4</Text>
+          <Text>{date-5}</Text>
         </View>
         <View style={styles.CircleShapeView3}>
-          <Text>5</Text>
+          <Text>{date-4}</Text>
         </View>
         <View style={styles.CircleShapeView4}>
-          <Text>6</Text>
+          <Text>{date-3}</Text>
         </View>
         <View style={styles.CircleShapeView5}>
-          <Text>7</Text>
+          <Text>{date-2}</Text>
         </View>
         <View style={styles.CircleShapeView6}>
-          <Text>8</Text>
+          <Text>{date-1}</Text>
         </View>
         <View style={styles.CircleShapeView7}>
-          <Text>9</Text>
+          <Text>{date}</Text>
         </View>
 
         <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
@@ -296,7 +300,7 @@ export default DetailsScreen;
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: 'lightgreen',
+     backgroundColor: '#FF6666',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
@@ -317,7 +321,7 @@ export default DetailsScreen;
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: '#FF6666',
+     backgroundColor: 'lightgreen',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
@@ -328,7 +332,7 @@ export default DetailsScreen;
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: 'lightgreen',
+     backgroundColor: 'lightgrey',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
@@ -339,20 +343,18 @@ export default DetailsScreen;
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: 'lightgreen',
+     backgroundColor: 'lightgrey',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
      top:175,
      marginLeft:160,
-     //borderWidth:2,
-     //borderColor:'black'
      },
      CircleShapeView6: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: 'lightgrey',
+     backgroundColor: 'lightgreen',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
@@ -363,11 +365,13 @@ export default DetailsScreen;
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: 'lightgrey',
+     backgroundColor: 'lightgreen',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
      top:175,
-     marginLeft:240
+     marginLeft:240,
+     borderWidth:2,
+     borderColor: 'black'
    },
  })

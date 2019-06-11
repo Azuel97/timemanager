@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
+// Importo lo schema del DB
+import {Ute} from './Login'
 
 class AddUser extends React.Component {
 
@@ -21,14 +23,12 @@ class AddUser extends React.Component {
    // Recupero dall'inserimento il nome/email
    handleEmail = (text) => {
     this.setState({ email: text })
- }
+   }
 
- // Aggiungo un utente al DB e torno nella pagina di Login
- toLogin(email){
+   // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
+   toLogin(email){
 
-    Realm.open({
-        schema: [{name: 'Ute', properties: {name: 'string'}}]
-      }).then(realm => {
+    Realm.open([Ute]).then(realm => {
         realm.write(() => {
              //Creo un nuovo utente    
           realm.create('Ute', {name: email});
@@ -40,7 +40,7 @@ class AddUser extends React.Component {
       });
 
     this.props.navigation.navigate('Home')
- }
+   }
  
     render() {
 
@@ -56,7 +56,7 @@ class AddUser extends React.Component {
             <TouchableOpacity
                 style = {styles.submitButton}
                 onPress = {() => this.toLogin(this.state.email)}>
-                <Text style = {styles.submitButtonText}> Add User </Text>
+                <Text style = {styles.submitButtonText}> Register </Text>
              </TouchableOpacity>
           </View>
        )

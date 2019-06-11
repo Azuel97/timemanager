@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
-
 // Utilizzo di Realm, per la persistenza dei dati
 import {getUser} from '../store/models/User'
 import realm from '../store/models/User'
@@ -8,35 +7,37 @@ import realm from '../store/models/User'
 // Array che contiene i nomi degli utenti, in maniera statica
 //var utenti = ["Azuel", "Rex", "Gianluca"];
 
+// Richiedo l'utilizzo di realm
 const Realm = require('realm');
+
+// Schema del database
+export const Ute = {
+    name: 'Ute',
+    properties: {
+      name: 'string'
+    }
+  };
+
 
 let utenteScelto;
 
 class Login extends React.Component {
 
-    // State is data that is going to change, in general, you should initialize,
+    // State is data that is going to change, in general, you should initialize
     // state in the constructor, and then call setState when you want to change it.
     state = {
        email: '',
        password: '',
-       realm: null
     }
 
-    // Collegamento con il DB di realm
-    componentDidMount() {
-        Realm.open({
-          schema: [{name: 'Ute', properties: {name: 'string'}}]
-        }).then(realm => {
-        //   realm.write(() => {
-               // Creo un nuovo utente    
-        //     realm.create('Ute', {name: 'Gianluca'});
-        //   });
-        this.setState({ realm });
-
-        // Query sulla ricerca del nome dell'utente
-        utenteScelto = "";
+    // Collegamento con il DB di realm, prima ancora che avvenga il render
+    componentWillMount() {
+        Realm.open([Ute]).then(realm => {
+            this.setState({ realm });
+            // Query sulla ricerca del nome dell'utente
+            utenteScelto = "";
         });
-      }
+    }
 
     // Recupero dall'inserimento il nome/email
     handleEmail = (text) => {
@@ -50,21 +51,18 @@ class Login extends React.Component {
 
     // Vado a gestire e controllore l'inserimento delle credenziali dell'utenteßß
     login = (email, pass) => {
+
        nomeUtente = email;
         
        // Riapro il DB e controllo se l'utente è registrato all'interno del mio databsae
-       Realm.open({
-        schema: [{name: 'Ute', properties: {name: 'string'}}]
-       }).then(realm => {
-
-       // Query sulla ricerca del nome dell'utente, tramite passaggio di una variabile
-       utenteScelto = realm.objects('Ute').filtered('name == $0', email);
-
+       Realm.open([Ute]).then(realm => {
+        // Query sulla ricerca del nome dell'utente, tramite passaggio di una variabile
+        utenteScelto = realm.objects('Ute').filtered('name == $0', email);
        });
 
        // Ciclo all'interno della risposta della query
        for (let p of utenteScelto) {
-            // salert(`${p.name}`);
+             //alert(`${p.name}`);
             if((email === p.name) && (pass === '1234567')){
                     this.props.navigation.navigate('Details')
             }
@@ -79,7 +77,7 @@ class Login extends React.Component {
      headerStyle: {
        backgroundColor: 'lightgrey'
      }
-   });
+    });
  
     render() {
 
@@ -96,7 +94,7 @@ class Login extends React.Component {
              />
              <TextInput style = {styles.input}
                 underlineColorAndroid = "transparent"
-                placeholder = "Email"
+                placeholder = "Nome"
                 placeholderTextColor = "#434A53"
                 autoCapitalize = "none"
                 onChangeText = {this.handleEmail}/>
@@ -118,7 +116,7 @@ class Login extends React.Component {
              <TouchableOpacity
                 style = {styles.submitButton}
                 onPress = {() => {this.props.navigation.navigate('AddUser')}}>
-                <Text style = {styles.submitButtonText}> Add User </Text>
+                <Text style = {styles.submitButtonText}> Register </Text>
              </TouchableOpacity>
 
             {/* <Text>{info}</Text> */}

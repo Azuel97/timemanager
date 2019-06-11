@@ -23,7 +23,7 @@ class SearchActivity extends React.Component {
 
     constructor(props) {
       super(props);
-      // Settaggio di default
+      // Settaggio di default 
       this.state = { isLoading: true, text: '' };
       // Array su cui salvo i dati che preleverò dal json
       this.arrayholder = [];
@@ -84,9 +84,10 @@ class SearchActivity extends React.Component {
           {/* -- Uso della FlatList -- */}
           
           <FlatList
-            style={{position:'absolute',top:110,marginLeft:10}}
+            style={{position:'absolute',top:110}}
             data={this.state.dataSource}
             renderItem={({item}) => <Text style={styles.item} onPress={this.getListViewItem.bind(this, item)} > ☆ {item.title}</Text>}
+            keyExtractor={(item, index) => index.toString()}
           />
   
         </View>
