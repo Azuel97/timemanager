@@ -1,23 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
 // Utilizzo di Realm, per la persistenza dei dati
-import {getUser} from '../store/models/User'
-import realm from '../store/models/User'
-
-// Array che contiene i nomi degli utenti, in maniera statica
-//var utenti = ["Azuel", "Rex", "Gianluca"];
+import Ute from '../store/models/User'
 
 // Richiedo l'utilizzo di realm
 const Realm = require('realm');
-
-// Schema del database
-export const Ute = {
-    name: 'Ute',
-    properties: {
-      name: 'string'
-    }
-  };
-
 
 let utenteScelto;
 
