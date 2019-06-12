@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
 // Importo lo schema del DB
-import {Ute} from './Login'
+import Ute from '../store/models/User'
+// Importo il metodo di aggiunta degli utenti
+import {addUtenti} from '../store/controllers/UserController'
+
 
 class AddUser extends React.Component {
 
@@ -23,29 +26,22 @@ class AddUser extends React.Component {
    // Recupero dall'inserimento il nome/email
    handleEmail = (text) => {
     this.setState({ email: text })
-   }
+   } 
 
    // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
    toLogin(email){
 
-    Realm.open([Ute]).then(realm => {
-        realm.write(() => {
-             //Creo un nuovo utente    
-          realm.create('Ute', {name: email});
-        });
-      this.setState({ realm });
+      // Richiamo il metodo per aggiungere un utente
+      addUtenti(email);
 
-      // Query sulla ricerca del nome dell'utente
-      utenteScelto = "";
-      });
-
-    this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('Home')
    }
-   
+ 
     render() {
 
        return (
           <View style = {styles.container}>
+            <Text style = {{left:150,fontSize:18}}>Add User</Text>
             <TextInput style = {styles.input}
                 underlineColorAndroid = "transparent"
                 placeholder = "Name"
