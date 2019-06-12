@@ -6,8 +6,6 @@ import DetailsScreen from "./src/navigation/DetailsScreen"
 import SearchActivity from "./src/navigation/SearchActivity"
 import CalendarActivity from './src/navigation/CalendarActivity'
 import AddUsers from './src/navigation/AddUsers'
-import Calcolatrice from './src/navigation/Calcolatrice'
-//import Crypto from './src/navigation/Crypto' --> prova uso API
 
 // Gestione della navigazione tra le varie schermate
 const AppNavigator = createStackNavigator(
@@ -17,8 +15,6 @@ const AppNavigator = createStackNavigator(
   Search: SearchActivity,
   Calendar: CalendarActivity,
   AddUser: AddUsers,
-  Calc: Calcolatrice
-  //Cryptos: Crypto --> prova uso API
 },
 {
   initialRouteName: "Home"
