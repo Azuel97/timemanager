@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button, FlatList } from 'react-native'
-// Importo lo schema del DB
-import Ute from '../store/models/User'
-// Importo il metodo di aggiunta degli utenti
-import {addUtenti} from '../store/controllers/UserController'
-
-// Richiedo l'utilizzo di realm
-const Realm = require('realm');
+// Importo lo schema, il model ed il controller
+import Database from '../store/index'
+import PeopleService from '../store/controllers/UserController'
+import PeopleModel from '../store/models/UserModel'
 
 let utenti = '';
 
@@ -35,14 +32,14 @@ class AddUser extends React.Component {
    // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
    toLogin(email){
       // Richiamo il metodo per aggiungere un utente
-      addUtenti(email);
+      PeopleService.save(new PeopleModel(email))
       // Torna alla activity home
       this.props.navigation.navigate('Home')
    }
 
    componentDidMount() {
-    // Riapro il DB 
-    Realm.open([Ute]).then(realm => {
+    // Riapro il DB per recuperare gli utenti
+    Realm.open([Database]).then(realm => {
       // Recupero tutti gli utenti che sono all'interno del DB
       utenti = realm.objects('Ute');
      });

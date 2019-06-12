@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
-// Utilizzo di Realm, per la persistenza dei dati
-import Ute from '../store/models/User'
-
-// Richiedo l'utilizzo di realm
-const Realm = require('realm');
+// Import lo schema del database
+import Database from '../store/index'
 
 let utenteScelto;
 
@@ -19,7 +16,7 @@ class Login extends React.Component {
 
     // Collegamento con il DB di realm, prima ancora che avvenga il render
     componentWillMount() {
-        Realm.open([Ute]).then(realm => {
+        Realm.open([Database]).then(realm => {
             this.setState({ realm });
             // Query sulla ricerca del nome dell'utente
             utenteScelto = "";
@@ -42,7 +39,7 @@ class Login extends React.Component {
        nomeUtente = email;
         
        // Riapro il DB e controllo se l'utente è registrato all'interno del mio databsae
-       Realm.open([Ute]).then(realm => {
+       Realm.open([Database]).then(realm => {
         // Query sulla ricerca del nome dell'utente, tramite passaggio di una variabile
         utenteScelto = realm.objects('Ute').filtered('name == $0', email);
        });
