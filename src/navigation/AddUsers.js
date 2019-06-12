@@ -37,12 +37,21 @@ class AddUser extends React.Component {
 
    // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
    toLogin(email,password){
-       // Encode the password
-       var pwdCriptata = btoa(password);
-      // Richiamo la funzione per aggiungere un utente
-      PeopleService.saveUser(new PeopleModel(email,pwdCriptata))
-      // Torna alla activity home
-      this.props.navigation.navigate('Home')
+    
+       if((email === "") || (password === ""))
+            Alert.alert('Errore')
+       else{
+            // Encode the password
+            var pwdCriptata = btoa(password);
+            // Richiamo la funzione per aggiungere un utente
+            var inserimento = PeopleService.saveUser(new PeopleModel(email,pwdCriptata))
+
+            if(inserimento == true)
+                // Torna alla activity home
+                this.props.navigation.navigate('Home')
+            else
+                Alert.alert('Errore','Nome utente già esistente')
+       }
    }
 
    componentDidMount() {

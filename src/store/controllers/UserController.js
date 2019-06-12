@@ -1,4 +1,3 @@
-import { Alert } from 'react-native'
 import Database from '../index';
 import PeopleModel from '../models/UserModel';
  
@@ -16,13 +15,15 @@ let PeopleService = {
   },
   
   saveUser: function(person) {
-    // Se esiste già un utente con il nome inserito non verrà aggiunto
-    if (repository.objects('Ute').filtered("name = '" + person.name + "'").length) 
-        return Alert.alert('Attenzione','Utente già esistente');
+    // Se esiste già un utente con il nome inserito non verrà aggiunto, e ritorna false
+    if (repository.objects('Ute').filtered(" name = '" + person.name + "'").length) 
+        return false;
 
+    // Se l'utente non è presente, allora lo aggiungo e ritorno true
     repository.write(() => {
       repository.create('Ute', person);
     })
+    return true;
   },
  
   update: function(callback) {

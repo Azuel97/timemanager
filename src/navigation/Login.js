@@ -31,7 +31,6 @@ class Login extends React.Component {
         nomeUtente = email;
         // Encode the password
        var pwdCriptata = btoa(password);
-       console.log(pwdCriptata)
        // Richiamo la funzione di ricerca su l'utente che richiede l'accesso
        utenteScelto = PeopleService.findSpecificUser(email,pwdCriptata)
 
