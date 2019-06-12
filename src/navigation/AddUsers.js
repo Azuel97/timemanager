@@ -37,8 +37,10 @@ class AddUser extends React.Component {
 
    // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
    toLogin(email,password){
+       // Encode the password
+       var pwdCriptata = btoa(password);
       // Richiamo la funzione per aggiungere un utente
-      PeopleService.saveUser(new PeopleModel(email,password))
+      PeopleService.saveUser(new PeopleModel(email,pwdCriptata))
       // Torna alla activity home
       this.props.navigation.navigate('Home')
    }
@@ -80,7 +82,7 @@ class AddUser extends React.Component {
                 renderItem={({item}) => <Text style={styles.item}> • {item.name}</Text>}
                 keyExtractor={(item, index) => index.toString()}
              /> */}
-             
+
           </View>
        )
     }
