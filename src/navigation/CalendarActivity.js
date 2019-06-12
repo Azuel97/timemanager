@@ -87,6 +87,20 @@ class CalendarActivity extends React.Component {
                       },
                     },
                   },
+                  '2019-06-10': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgreen'
+                      },
+                    },
+                  },
+                  '2019-06-11': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgreen'
+                      },
+                    },
+                  },
                  }}/>
               </ScrollView>
            </View>
