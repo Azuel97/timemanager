@@ -1,6 +1,7 @@
 class PeopleModel {
-  constructor(name) {
+  constructor(name,pwd) {
     this.name = name;
+    this.pwd = pwd;
   }
 }
  

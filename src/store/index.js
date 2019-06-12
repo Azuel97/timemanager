@@ -6,9 +6,11 @@ let repository = new Realm({
             name: 'Ute',
             properties: {
                 name: 'string',
+                pwd: 'string'
             }
         }
-    ]
+    ],
+    schemaVersion: 1,
 });
  
 let Database = {
