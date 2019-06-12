@@ -14,7 +14,7 @@ class Login extends React.Component {
     // state in the constructor, and then call setState when you want to change it.
     state = {
        email: '',
-       password: '',
+       password: ''
     }
 
     // Collegamento con il DB di realm, prima ancora che avvenga il render
@@ -65,6 +65,7 @@ class Login extends React.Component {
        backgroundColor: 'lightgrey'
      }
     });
+    
  
     render() {
 
