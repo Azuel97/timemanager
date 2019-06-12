@@ -31,18 +31,15 @@ class AddUser extends React.Component {
 
    // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
    toLogin(email){
-      // Richiamo il metodo per aggiungere un utente
+      // Richiamo la funzione per aggiungere un utente
       PeopleService.save(new PeopleModel(email))
       // Torna alla activity home
       this.props.navigation.navigate('Home')
    }
 
    componentDidMount() {
-    // Riapro il DB per recuperare gli utenti
-    Realm.open([Database]).then(realm => {
-      // Recupero tutti gli utenti che sono all'interno del DB
-      utenti = realm.objects('Ute');
-     });
+     // Richiamo la funzione find() per recuperare tutti gli utenti all'interno della lista
+     utenti = PeopleService.find();
    }
  
     render() {

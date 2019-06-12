@@ -9,8 +9,15 @@ let PeopleService = {
     if (!sortBy) sortBy = [['name', true]];
     return repository.objects('Ute').sorted(sortBy);
   },
+
+  find: function(){
+    return repository.objects('Ute')
+  },
  
-  save: function(person) { 
+  save: function(person) {
+    // Se esiste già un utente con il nome inserito non verrà aggiunto
+    if (repository.objects('Ute').filtered("name = '" + person.name + "'").length) return alert('Già esistente');
+
     repository.write(() => {
       repository.create('Ute', person);
     })
