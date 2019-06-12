@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Alert, Button } from 'react-native'
 // Import lo schema del database
 import Database from '../store/index'
+import PeopleService from '../store/controllers/UserController'
+import PeopleModel from '../store/models/UserModel'
 
 let utenteScelto;
 
@@ -12,15 +14,6 @@ class Login extends React.Component {
     state = {
        email: '',
        password: ''
-    }
-
-    // Collegamento con il DB di realm, prima ancora che avvenga il render
-    componentWillMount() {
-        Realm.open([Database]).then(realm => {
-            this.setState({ realm });
-            // Query sulla ricerca del nome dell'utente
-            utenteScelto = "";
-        });
     }
 
     // Recupero dall'inserimento il nome/email
@@ -34,20 +27,16 @@ class Login extends React.Component {
     }
 
     // Vado a gestire e controllore l'inserimento delle credenziali dell'utenteßß
-    login = (email, pass) => {
+    login = (email, password) => {
+        nomeUtente = email;
 
-       nomeUtente = email;
-        
-       // Riapro il DB e controllo se l'utente è registrato all'interno del mio databsae
-       Realm.open([Database]).then(realm => {
-        // Query sulla ricerca del nome dell'utente, tramite passaggio di una variabile
-        utenteScelto = realm.objects('Ute').filtered('name == $0', email);
-       });
+       // Richiamo la funzione di ricerca su l'utente che richiede l'accesso
+       utenteScelto = PeopleService.findSpecificUser(email,password)
 
        // Ciclo all'interno della risposta della query
        for (let p of utenteScelto) {
              //alert(`${p.name}`);
-            if((email === p.name) && (pass === '1234567')){
+            if((email === p.name) && (password === p.pwd)){
                     this.props.navigation.navigate('Details')
             }
         } 
