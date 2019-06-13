@@ -22,9 +22,9 @@ const AppNavigator = createStackNavigator(
 );
 
 // BottomNavigationBar
-const TabNavigator = createBottomTabNavigator({  
-  Home: Login,  
-  Details: DetailsScreen,  
-});  
+// const TabNavigator = createBottomTabNavigator({  
+//   Home: Login,  
+//   Details: DetailsScreen,  
+// });  
 
 export default createAppContainer(AppNavigator);

@@ -10,7 +10,7 @@ let repository = new Realm({
             }
         }
     ],
-    schemaVersion: 1,
+    schemaVersion: 3,
 });
  
 let Database = {

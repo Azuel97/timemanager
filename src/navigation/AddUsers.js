@@ -38,8 +38,10 @@ class AddUser extends React.Component {
    // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
    toLogin(email,password){
     
-       if((email === "") || (password === ""))
-            Alert.alert('Errore')
+       if(email === "")
+            Alert.alert('Errore','Nome obbligatorio')
+       else if(password === "")
+            Alert.alert('Errore','Password obbligatoria')
        else{
             // Encode the password
             var pwdCriptata = btoa(password);

@@ -55,7 +55,7 @@ class CalendarActivity extends React.Component {
                   '2019-06-05': {
                     customStyles: {
                       container: {
-                        backgroundColor: '#FF6666'
+                        backgroundColor: 'lightgreen'
                       },
                     },
                   },
@@ -69,7 +69,7 @@ class CalendarActivity extends React.Component {
                   '2019-06-07': {
                     customStyles: {
                       container: {
-                        backgroundColor: 'lightgreen'
+                        backgroundColor: '#FF6666'
                       },
                     },
                   },
@@ -95,6 +95,20 @@ class CalendarActivity extends React.Component {
                     },
                   },
                   '2019-06-11': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgreen'
+                      },
+                    },
+                  },
+                  '2019-06-12': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgreen'
+                      },
+                    },
+                  },
+                  '2019-06-13': {
                     customStyles: {
                       container: {
                         backgroundColor: 'lightgreen'
