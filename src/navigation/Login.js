@@ -29,7 +29,7 @@ class Login extends React.Component {
     // Vado a gestire e controllore l'inserimento delle credenziali dell'utenteßß
     login = (email, password) => {
         nomeUtente = email;
-        // Encode the password
+        // Cripto la password
        var pwdCriptata = btoa(password);
        // Richiamo la funzione di ricerca su l'utente che richiede l'accesso
        utenteScelto = PeopleService.findSpecificUser(email,pwdCriptata)
@@ -47,7 +47,7 @@ class Login extends React.Component {
     static navigationOptions = () => ({
      title: 'TimeManager',
      headerTintColor: 'black',
-     headerBackTitle:'Logout',
+     //headerBackTitle:'Logout',
      headerStyle: {
        backgroundColor: 'lightgrey'
      }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Button } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class DetailsScreen extends React.Component {
 
@@ -11,9 +12,19 @@ class DetailsScreen extends React.Component {
       backgroundColor: 'lightgrey'
     },
     headerRight:(
-      <Text style={{fontSize:30, marginRight:10}} onPress={() => {alert('Hai cliccato')}} >+</Text>
+      <Text style={{fontSize:18, marginRight:5}} onPress={navigation.getParam('logout')} ><Icon size={24} color="black" name="ios-log-out" />  </Text>
     ),
+    headerLeft: null
   });
+
+  _logout = () => {
+    this.props.navigation.navigate('Home')
+  }
+
+  componentDidMount () {
+    this.props.navigation.setParams({ logout: this._logout });
+  }
+  
 
   // Setto i valori di default, che mi serviranno per la gestione dei timer
   state = {
@@ -60,6 +71,8 @@ constructor( props ) {
         this.state.turno = 'Pausa Turno';
       } else {
         this.onButtonStop();
+        this.onButtonStopA();
+        this.state.attivita = 'Inizia Attività'
         this.state.turno = 'Inizio Turno';
       }
   }
@@ -177,7 +190,7 @@ constructor( props ) {
 
     // Recupero la data attuale
     var today = new Date();
-    date = today.getDate()
+    date = today.getDate();
 
     return (
       <View style={{
@@ -229,17 +242,17 @@ constructor( props ) {
         <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text>
 
 
-        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>TASK - {mioTask} </Text>
+        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>Task - {mioTask} </Text>
         <TouchableOpacity style={styles.buttonTask} onPress={() => this.goToTask()}>
            <Text style = {styles.submitButtonText}> Visualizza Task </Text>
         </TouchableOpacity>
 
-        <Text style={{position:'absolute',top:400,fontFamily:'Arial', fontSize:18}}>ATTIVITA'</Text>
+        <Text style={{position:'absolute',top:400,fontFamily:'Arial', fontSize:18}}>Attività</Text>
         <TouchableOpacity style={styles.nuovaAttivita} onPress={() => this.startAttivita()}>
            <Text style = {styles.submitButtonText}> {this.state.attivita} </Text>
         </TouchableOpacity>
 
-        <Text style={{position:'absolute',top:520,fontFamily:'Arial', fontSize:18}}>TURNO</Text>
+        <Text style={{position:'absolute',top:520,fontFamily:'Arial', fontSize:18}}>Turno</Text>
         <TouchableOpacity style={styles.nuovoTurno} onPress={() => this.startTurno()}>
            <Text style = {styles.submitButtonText}> {this.state.turno} </Text>
         </TouchableOpacity>

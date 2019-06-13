@@ -5,5 +5,5 @@ class PeopleModel {
     this.pwd = pwd;
   }
 }
- 
-module.exports = PeopleModel;
+
+export default PeopleModel;

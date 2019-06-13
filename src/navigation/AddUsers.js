@@ -43,7 +43,7 @@ class AddUser extends React.Component {
        else if(password === "")
             Alert.alert('Errore','Password obbligatoria')
        else{
-            // Encode the password
+            // Cripto la password
             var pwdCriptata = btoa(password);
             // Richiamo la funzione per aggiungere un utente
             var inserimento = PeopleService.saveUser(new PeopleModel(email,pwdCriptata))

@@ -1,5 +1,5 @@
 import Database from '../index';
-import PeopleModel from '../models/UserModel';
+//import PeopleModel from '../models/UserModel';
  
 let repository = Database.getRepository();
  
@@ -35,4 +35,4 @@ let PeopleService = {
 
 };
 
-module.exports = PeopleService;
+export default PeopleService;
