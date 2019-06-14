@@ -40,15 +40,15 @@ class Login extends React.Component {
        for (let p of utenteScelto) {
              //alert(`${p.name}`);
             if((email === p.name) && (pwdCriptata === p.pwd)){
-                    // Recupero la data attuale
-                    var today = new Date();
-                    todayDate = today.getDate().toString();
-                    todayMonth = today.getMonth() + 1;
-                    todayMo = todayMonth.toString();
-                    todayYear = today.getFullYear().toString()
-                    console.log(todayDate+'/'+todayMo+'/'+todayYear)                  
-                    GiornataService.saveGiornata(new GiornateModel(email,todayDate+'/'+todayMo+'/'+todayYear,0,0));
-                    this.props.navigation.navigate('Details')
+                // Recupero la data attuale
+                var today = new Date();
+                todayDate = today.getDate().toString();
+                todayMonth = today.getMonth() + 1;
+                todayMo = todayMonth.toString();
+                todayYear = today.getFullYear().toString()
+                console.log(todayDate+'/'+todayMo+'/'+todayYear)                  
+                GiornataService.saveGiornata(new GiornateModel(email,todayDate+'/'+todayMo+'/'+todayYear,0,0));
+                this.props.navigation.navigate('Details')
             }
         } 
     }
