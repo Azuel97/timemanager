@@ -19,8 +19,8 @@ let GiornataService = {
     })
   },
 
-  updateTempoLavoro: function(utente,tempoAggiornato) {
-    aggiornaLavoro = repository.objects('Giornat').filtered('utente == $0',utente);
+  updateTempoLavoro: function(utente,tempoAggiornato,dataGiornata) {
+    aggiornaLavoro = repository.objects('Giornat').filtered('utente == $0 && data == $1',utente,dataGiornata);
     repository.write(() => {
         for (let p of aggiornaLavoro) {
             p.tempoLavoro = tempoAggiornato
@@ -28,13 +28,33 @@ let GiornataService = {
     })
   },
 
-  updateTempoAttivita: function(utente,tempoAggiornato) {
-    aggiornaAttivita = repository.objects('Giornat').filtered('utente == $0',utente);
+  updateTempoAttivita: function(utente,tempoAggiornato,dataGiornata) {
+    aggiornaAttivita = repository.objects('Giornat').filtered('utente == $0 && data == $1',utente,dataGiornata);
     repository.write(() => {
         for (let p of aggiornaAttivita) {
             p.tempoAttivita = tempoAggiornato
         }
     })
+  },
+
+  findTempoLavoro: function(utente,dataGiornata) {
+    trovaTempo = repository.objects('Giornat').filtered('utente == $0 && data == $1',utente,dataGiornata);
+    repository.write(() => {
+      for (let p of trovaTempo) {
+          tempoTrovato = p.tempoLavoro
+      }
+    })
+    return tempoTrovato
+  },
+
+  findTempoAttivita: function(utente,dataGiornata) {
+    trovaTempo = repository.objects('Giornat').filtered('utente == $0 && data == $1',utente,dataGiornata);
+    repository.write(() => {
+      for (let p of trovaTempo) {
+          tempoTrovato = p.tempoAttivita
+      }
+    })
+    return tempoTrovato
   },
  
   update: function(callback) {

@@ -10,7 +10,7 @@ import GiornateModel from '../store/models/GiornateModel'
 var today = new Date();
 date = today.getDate();
 
-class DetailsScreen extends React.Component {
+class DetailsHistory extends React.Component {
 
   // Modifica la navigationBar
   static navigationOptions = ({ navigation }) => ({
@@ -18,11 +18,7 @@ class DetailsScreen extends React.Component {
     headerTintColor: 'black',
     headerStyle: {
       backgroundColor: 'lightgrey'
-    },
-    headerRight:(
-      <Text style={{fontSize:18, marginRight:5}} onPress={navigation.getParam('logout')} ><Icon size={24} color="black" name="ios-log-out" />  </Text>
-    ),
-    headerLeft: null
+    }
   });
 
   // Funzione di navigazione verso la home, come logout
@@ -31,9 +27,9 @@ class DetailsScreen extends React.Component {
   }
 
   // Quando viene montato passo il parametro, serve per il funzionamento del click sulla navigationbar
-  componentDidMount () {
-    this.props.navigation.setParams({ logout: this._logout });
-  }
+//   componentDidMount () {
+//     this.props.navigation.setParams({ logout: this._logout });
+//   }
   
 
   // Setto i valori di default, che mi serviranno per la gestione dei timer
@@ -69,9 +65,10 @@ constructor( props ) {
 }
 
 // Al login effettuato perte il timer del turno di lavoro
-//   componentDidMount() {
-//     this.start();
-// }
+  componentDidMount() {
+
+    this.props.navigation.setParams({ logout: this._logout });
+}
 
 
   // Scegliere start o stop del timer turno
@@ -87,28 +84,19 @@ constructor( props ) {
         this.state.turno = 'Inizio Turno';
         let utenteScelto = nomeUtente.toString()
 
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-        todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
-
         // Aggiorno il DB sul tempo di lavoro
         let sec = this.state.sec.toString()
         let min = this.state.minuts.toString()
         let hou = this.state.hours.toString()
         let tempo = parseInt(hou+min+sec)
-        GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
+        GiornataService.updateTempoLavoro(utenteScelto,tempo)
 
         // Aggiorno il DB sul tempo della attività
         let secA = this.state.secA.toString()
         let minA = this.state.minutsA.toString()
         let houA = this.state.hoursA.toString()
         let tempoA = parseInt(houA+minA+secA)
-        GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
-        console.log(dataCompleta)
+        GiornataService.updateTempoAttivita(utenteScelto,tempoA)
       }
   }
 
@@ -122,20 +110,12 @@ constructor( props ) {
         this.state.attivita = 'Inizia Attività';
         let utenteScelto = nomeUtente.toString()
 
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-        todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
-
         // Aggiorno il DB sul tempo della attività
         let sec = this.state.secA.toString()
         let min = this.state.minutsA.toString()
         let hou = this.state.hoursA.toString()
         let tempo = parseInt(hou+min+sec)
-        GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
+        GiornataService.updateTempoAttivita(utenteScelto,tempo)
       }
   }
 
@@ -233,60 +213,40 @@ constructor( props ) {
         this.props.navigation.navigate('Search');
     }
 
-
-    // Gestione dello storico con passaggio al dettaglio della giornata, passando il giorno
-    // N.B --> bug da risolvere quando il giorno è minore di 10
-    goToHistory1() {
-      let data = date-1
-      this.props.navigation.navigate('History', {
-        dataGiorno: data
-      });
-    }
-
-    goToHistory2() {
-      let data = date-2
-      this.props.navigation.navigate('History', {
-        dataGiorno: data
-      });
-    }
-
-    goToHistory3() {
-      let data = date-3
-      this.props.navigation.navigate('History', {
-        dataGiorno: data
-      });
-    }
-
-    goToHistory4() {
-      let data = date-4
-      this.props.navigation.navigate('History', {
-        dataGiorno: data
-      });
-    }
-
-    goToHistory5() {
-      let data = date-5
-      this.props.navigation.navigate('History', {
-        dataGiorno: data
-      });
-    }
-
-    goToHistory6() {
-      let data = date-6
-      this.props.navigation.navigate('History', {
-        dataGiorno: data
-      });
-    }
-
   render() {
 
     // Recupero del parametro passato dalla activity Search
     const { navigation } = this.props;
-    const mioTask = navigation.getParam('myTask', '');
+    const miaData = navigation.getParam('dataGiorno', '');
 
-    // // Recupero la data attuale
-    // var today = new Date();
-    // date = today.getDate();
+    // Recupero il nome dell'utente 
+    let utenteScelto = nomeUtente.toString()
+
+    // Recupero la data attuale e la formatto
+    var today = new Date();
+    todayMonth = today.getMonth() + 1;
+    todayMo = todayMonth.toString();
+    todayYear = today.getFullYear().toString()
+    dataCompleta = (miaData+'/'+todayMo+'/'+todayYear).toString()
+
+    // Recupero il tempo di lavoro dal DB della giornate passata dalla activity principale details
+    tempoTrovato = GiornataService.findTempoLavoro(utenteScelto,dataCompleta)
+    let tempoStringa = tempoTrovato.toString()
+    let ore = tempoStringa.substring(0,1)
+    let minuti = tempoStringa.substring(1,3)
+    let secondi = tempoStringa.substring(3,5)
+    console.log(ore+':'+minuti+':'+secondi)
+    console.log(tempoTrovato)
+
+    // Recupero il tempo di lavoro dal DB della giornate passata dalla activity principale details
+    tempoTrovatoAttivita = GiornataService.findTempoAttivita(utenteScelto,dataCompleta)
+    let tempoStringaAttivita = tempoTrovatoAttivita.toString()
+    let oreA = tempoStringaAttivita.substring(0,1)
+    let minutiA = tempoStringaAttivita.substring(1,3)
+    let secondiA = tempoStringaAttivita.substring(3,5)
+    console.log(oreA+':'+minutiA+':'+secondiA)
+    console.log(tempoTrovatoAttivita)
+    
 
     return (
       <View style={{
@@ -303,42 +263,42 @@ constructor( props ) {
         <Text style={{fontFamily:'Arial', fontSize:25, marginLeft:15}}>Benvenuto,</Text>
         <Text style={{fontFamily:'Arial', fontSize:25, marginLeft:5}}>{nomeUtente}</Text>
 
-        <Text style={{position:'absolute',top:70,fontFamily:'Arial', fontSize:14}}>Resoconto giornaliero </Text>
-        <Text style={{position:'absolute',top:100, left:55,fontFamily:'Arial', fontSize:16}}>{this.state.hoursA}:{this.state.minutsA}:{this.state.secA}</Text>
+        <Text style={{position:'absolute',top:70,fontFamily:'Arial', fontSize:14}}>Resoconto del giorno - {dataCompleta} </Text>
+        <Text style={{position:'absolute',top:100, left:55,fontFamily:'Arial', fontSize:16}}>{oreA+':'+minutiA+':'+secondiA}</Text>
         <Text style={{position:'absolute',top:120, left:50,fontFamily:'Arial', fontSize:14}}>Ore Attività</Text>
 
-        <Text style={{position:'absolute',top:100, left:170,fontFamily:'Arial', fontSize:16}}>{this.state.hours}:{this.state.minuts}:{this.state.sec}</Text>
+        <Text style={{position:'absolute',top:100, left:170,fontFamily:'Arial', fontSize:16}}> {ore+':'+minuti+':'+secondi} </Text>
         <Text style={{position:'absolute',top:120, left:165 ,fontFamily:'Arial', fontSize:14}}>Ore Lavoro</Text>
 
-        <Text style={{position:'absolute',top:150,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
+        {/* <Text style={{position:'absolute',top:150,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text> */}
         
-        <View style={styles.CircleShapeView1}>
-          <Text onPress = {() => this.goToHistory6()} >{date-6}</Text>
+        {/* <View style={styles.CircleShapeView1}>
+          <Text>{date-6}</Text>
         </View>
         <View style={styles.CircleShapeView2}>
-          <Text onPress = {() => this.goToHistory5()} >{date-5}</Text>
+          <Text>{date-5}</Text>
         </View>
         <View style={styles.CircleShapeView3}>
-          <Text onPress = {() => this.goToHistory4()} >{date-4}</Text>
+          <Text>{date-4}</Text>
         </View>
         <View style={styles.CircleShapeView4}>
-          <Text onPress = {() => this.goToHistory3()} >{date-3}</Text>
+          <Text>{date-3}</Text>
         </View>
         <View style={styles.CircleShapeView5}>
-          <Text onPress = {() => this.goToHistory2()} >{date-2}</Text>
+          <Text>{date-2}</Text>
         </View>
         <View style={styles.CircleShapeView6}>
-          <Text onPress = {() => this.goToHistory1()} >{date-1}</Text>
+          <Text>{date-1}</Text>
         </View>
         <View style={styles.CircleShapeView7}>
           <Text>{date}</Text>
-        </View>
+        </View> */}
 
-        <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
-        <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text>
+        {/* <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
+        <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text> */}
 
 
-        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>Task - {mioTask} </Text>
+        {/* <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>Task - {mioTask} </Text>
         <TouchableOpacity style={styles.buttonTask} onPress={() => this.goToTask()}>
            <Text style = {styles.submitButtonText}> Visualizza Task </Text>
         </TouchableOpacity>
@@ -351,14 +311,14 @@ constructor( props ) {
         <Text style={{position:'absolute',top:520,fontFamily:'Arial', fontSize:18}}>Turno</Text>
         <TouchableOpacity style={styles.nuovoTurno} onPress={() => this.startTurno()}>
            <Text style = {styles.submitButtonText}> {this.state.turno} </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         
       </View>
     );
   }
 }
 
-export default DetailsScreen;
+export default DetailsHistory;
 
  const styles = StyleSheet.create({
     submitButton: {
