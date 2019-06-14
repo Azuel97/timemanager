@@ -8,6 +8,15 @@ let repository = new Realm({
                 name: 'string',
                 pwd: 'string'
             }
+        },
+        {
+            name: 'Giornat',
+            properties: {
+                utente: 'string',
+                data: 'string',
+                tempoAttivita: 'int',
+                tempoLavoro: 'int'
+            }
         }
     ],
     schemaVersion: 3,

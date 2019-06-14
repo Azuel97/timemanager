@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Button } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
+// Importo lo schema, il model ed il controller
+import Database from '../store/index'
+import GiornataService from '../store/controllers/GiornateController'
+import GiornateModel from '../store/models/GiornateModel'
 
 class DetailsScreen extends React.Component {
 
@@ -17,10 +21,12 @@ class DetailsScreen extends React.Component {
     headerLeft: null
   });
 
+  // Funzione di navigazione verso la home, come logout
   _logout = () => {
     this.props.navigation.navigate('Home')
   }
 
+  // Quando viene montato passo il parametro, serve per il funzionamento del click sulla navigationbar
   componentDidMount () {
     this.props.navigation.setParams({ logout: this._logout });
   }
@@ -69,11 +75,27 @@ constructor( props ) {
       if(this.state.turno === 'Inizio Turno'){
         this.start();
         this.state.turno = 'Pausa Turno';
+
       } else {
         this.onButtonStop();
         this.onButtonStopA();
         this.state.attivita = 'Inizia Attività'
         this.state.turno = 'Inizio Turno';
+        let utenteScelto = nomeUtente.toString()
+
+        // Aggiorno il DB sul tempo di lavoro
+        let sec = this.state.sec.toString()
+        let min = this.state.minuts.toString()
+        let hou = this.state.hours.toString()
+        let tempo = parseInt(hou+min+sec)
+        GiornataService.updateTempoLavoro(utenteScelto,tempo)
+
+        // Aggiorno il DB sul tempo della attività
+        let secA = this.state.secA.toString()
+        let minA = this.state.minutsA.toString()
+        let houA = this.state.hoursA.toString()
+        let tempoA = parseInt(houA+minA+secA)
+        GiornataService.updateTempoAttivita(utenteScelto,tempoA)
       }
   }
 
@@ -85,6 +107,14 @@ constructor( props ) {
       } else {
         this.onButtonStopA();
         this.state.attivita = 'Inizia Attività';
+        let utenteScelto = nomeUtente.toString()
+
+        // Aggiorno il DB sul tempo della attività
+        let sec = this.state.secA.toString()
+        let min = this.state.minutsA.toString()
+        let hou = this.state.hoursA.toString()
+        let tempo = parseInt(hou+min+sec)
+        GiornataService.updateTempoAttivita(utenteScelto,tempo)
       }
   }
 
