@@ -46,9 +46,60 @@ class Login extends React.Component {
                 todayMonth = today.getMonth() + 1;
                 todayMo = todayMonth.toString();
                 todayYear = today.getFullYear().toString()
-                console.log(todayDate+'/'+todayMo+'/'+todayYear)                  
-                GiornataService.saveGiornata(new GiornateModel(email,todayDate+'/'+todayMo+'/'+todayYear,0,0));
-                this.props.navigation.navigate('Details')
+                dataCompleta = (todayDate+'/'+todayMo+'/'+todayYear).toString()
+                console.log(dataCompleta)
+                
+                // N.B --> Aggiungere controllo se esiste già un accesso di quella giornata, in questo
+                // modo invece di creacre la giornata e di settare i timer a 0, riprende i timer dal 
+                // database, ovvero riprende da dove aveva finito prima del logout.
+
+                cercaGiormnata = GiornataService.findGiornata(email,dataCompleta)
+
+                if(cercaGiormnata == true){
+
+                    // Recupero il nome dell'utente 
+                    let utenteScelto = nomeUtente.toString()
+
+                    // Recupero la data attuale e la formatto
+                    var today = new Date();
+                    todayDate = today.getDate()
+                    todayMonth = today.getMonth() + 1;
+                    todayMo = todayMonth.toString();
+                    todayYear = today.getFullYear().toString()
+                    dataCompleta = (todayDate+'/'+todayMo+'/'+todayYear).toString()
+
+                    // Recupero dal DB il tempo di lavoro della giornata passata dalla activity principale details
+                    tempoTrovato = GiornataService.findTempoLavoro(utenteScelto,dataCompleta)
+                    let tempoStringa = tempoTrovato.toString()  
+                    let ore = tempoStringa.substring(0,2)
+                    let minuti = tempoStringa.substring(2,4)
+                    let secondi = tempoStringa.substring(4,6)
+                    console.log(ore+':'+minuti+':'+secondi)
+
+                    // Recupero dal DB il tempo di attività della giornata passata dalla activity principale details
+                    tempoTrovatoAttivita = GiornataService.findTempoAttivita(utenteScelto,dataCompleta)
+                    let tempoStringaAttivita = tempoTrovatoAttivita.toString()
+                    let oreA = tempoStringaAttivita.substring(0,2)
+                    let minutiA = tempoStringaAttivita.substring(2,4)
+                    let secondiA = tempoStringaAttivita.substring(4,6)
+                    console.log(ore+':'+minuti+':'+secondi)
+
+                    this.props.navigation.navigate('Details', {
+                        oreLavoro: ore,
+                        minutiLavoro: minuti,
+                        secondiLavoro: secondi,
+                        oreAttivita: oreA,
+                        minutiAttivita: minutiA,
+                        secondiAttivita: secondiA,
+                        datiNonTrovati: false
+                    })
+                    // this.props.navigation.navigate('Details')
+                } else {
+                    GiornataService.saveGiornata(new GiornateModel(email,dataCompleta,'000000','000000'));
+                    this.props.navigation.navigate('Details',{
+                        datiNonTrovati: true
+                    })
+                }
             }
         } 
     }

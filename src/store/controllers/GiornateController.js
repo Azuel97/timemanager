@@ -9,14 +9,22 @@ let GiornataService = {
   },
   
   saveGiornata: function(giornata) {
-    // Se esiste già un utente con il nome inserito non verrà aggiunto, e ritorna false
-    if (repository.objects('Giornat').filtered(" utente = '" + giornata.utente + "'").length) 
+    // Se esiste già un utente con il nome inserito e con la data già esistente non verrà aggiunto, e ritorna false
+    if (repository.objects('Giornat').filtered(" utente = '" + giornata.utente + "' && data = '" + giornata.data + "'").length) 
         return false;
 
     // Se l'utente non è presente, allora lo aggiungo e ritorno true
     repository.write(() => {
       repository.create('Giornat', giornata);
     })
+  },
+
+  findGiornata: function(utente,dataGiornata) {
+    // Se esiste già un utente con il nome inserito e con la data già esistente non verrà aggiunto, e ritorna false
+    if (repository.objects('Giornat').filtered(" utente = '" + utente + "' && data = '" + dataGiornata + "'").length) 
+        return true;
+    
+    return false;
   },
 
   updateTempoLavoro: function(utente,tempoAggiornato,dataGiornata) {

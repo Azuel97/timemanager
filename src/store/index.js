@@ -14,12 +14,12 @@ let repository = new Realm({
             properties: {
                 utente: 'string',
                 data: 'string',
-                tempoAttivita: 'int',
-                tempoLavoro: 'int'
+                tempoAttivita: 'string',
+                tempoLavoro: 'string'
             }
         }
     ],
-    schemaVersion: 3,
+    schemaVersion: 4,
 });
  
 let Database = {

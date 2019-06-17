@@ -33,6 +33,40 @@ class DetailsScreen extends React.Component {
   // Quando viene montato passo il parametro, serve per il funzionamento del click sulla navigationbar
   componentDidMount () {
     this.props.navigation.setParams({ logout: this._logout });
+
+    const { navigation } = this.props;
+
+    const datiTro = navigation.getParam('datiNonTrovati', '');
+
+    if(datiTro == false ) {
+
+        // Recupero del parametro passato dalla activity Login
+        const orePassate = navigation.getParam('oreLavoro', '');
+        const minutiPassati = navigation.getParam('minutiLavoro', '');
+        const secondiPassati = navigation.getParam('secondiLavoro', '');
+
+        this.state.sec = secondiPassati;
+        this.state.minuts = minutiPassati;
+        this.state.hours = orePassate;
+
+        // Recupero del parametro passato dalla activity Login
+        const orePassateA = navigation.getParam('oreAttivita', '');
+        const minutiPassatiA = navigation.getParam('minutiAttivita', '');
+        const secondiPassatiA = navigation.getParam('secondiAttivita', '');
+
+        this.state.secA = secondiPassatiA;
+        this.state.minutsA = minutiPassatiA;
+        this.state.hoursA = orePassateA;
+    } else {
+      this.state.sec = '00';
+      this.state.minuts = '00';
+      this.state.hours = '00';
+
+      this.state.secA = '00';
+        this.state.minutsA = '00';
+        this.state.hoursA = '00';
+    }
+
   }
   
 
@@ -99,14 +133,15 @@ constructor( props ) {
         let sec = this.state.sec.toString()
         let min = this.state.minuts.toString()
         let hou = this.state.hours.toString()
-        let tempo = parseInt(hou+min+sec)
+        let tempo = (hou+min+sec)
         GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
 
         // Aggiorno il DB sul tempo della attività
         let secA = this.state.secA.toString()
         let minA = this.state.minutsA.toString()
         let houA = this.state.hoursA.toString()
-        let tempoA = parseInt(houA+minA+secA)
+        // let tempoA = parseInt(houA+minA+secA)
+        let tempoA = (houA+minA+secA)
         GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
         console.log(dataCompleta)
       }
@@ -134,7 +169,7 @@ constructor( props ) {
         let sec = this.state.secA.toString()
         let min = this.state.minutsA.toString()
         let hou = this.state.hoursA.toString()
-        let tempo = parseInt(hou+min+sec)
+        let tempo = (hou+min+sec)
         GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
       }
   }
