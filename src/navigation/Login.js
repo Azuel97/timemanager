@@ -53,8 +53,10 @@ class Login extends React.Component {
                 // modo invece di creacre la giornata e di settare i timer a 0, riprende i timer dal 
                 // database, ovvero riprende da dove aveva finito prima del logout.
 
+                // Controllo se esite già un accesso dell'utente nella giornata corrente
                 cercaGiormnata = GiornataService.findGiornata(email,dataCompleta)
 
+                // Se esite, ovveri è true, allora recupero i valori dei timer dal DB e li passo come paramtro
                 if(cercaGiormnata == true){
 
                     // Recupero il nome dell'utente 
@@ -84,6 +86,8 @@ class Login extends React.Component {
                     let secondiA = tempoStringaAttivita.substring(4,6)
                     console.log(ore+':'+minuti+':'+secondi)
 
+                    // Passo alla activity principale 'Details' i valori dei timer che sono stati salvati
+                    // sul db, in modo da recuperre dove erano rimasti prima di effettuare il logout
                     this.props.navigation.navigate('Details', {
                         oreLavoro: ore,
                         minutiLavoro: minuti,
@@ -93,8 +97,9 @@ class Login extends React.Component {
                         secondiAttivita: secondiA,
                         datiNonTrovati: false
                     })
-                    // this.props.navigation.navigate('Details')
                 } else {
+                    // Altrimenti su non c'è nessun accesso precedente dell'utente, allora vado a creare 
+                    // l'accesso sul db impostando i timer per default a 0 e passo un parametro di controllo
                     GiornataService.saveGiornata(new GiornateModel(email,dataCompleta,'000000','000000'));
                     this.props.navigation.navigate('Details',{
                         datiNonTrovati: true

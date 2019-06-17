@@ -31,16 +31,20 @@ class DetailsScreen extends React.Component {
   }
 
   // Quando viene montato passo il parametro, serve per il funzionamento del click sulla navigationbar
+  // e sul recupero dei parametri passati dal activity di login
   componentDidMount () {
     this.props.navigation.setParams({ logout: this._logout });
 
+    // Recupero il valore di controllo
     const { navigation } = this.props;
-
     const datiTro = navigation.getParam('datiNonTrovati', '');
 
+    // Se il parametro è false, vuol dire che c'è gia un accesso del utente e quindi recupero i valori dei
+    // timer salvati nel db e gli assegno agli state che vengono gestiti dai timer
     if(datiTro == false ) {
 
-        // Recupero del parametro passato dalla activity Login
+        // Recupero dei parametri passati dalla activity Login, per il Turno
+        // e setto gli state dei timer con il loro valore passato
         const orePassate = navigation.getParam('oreLavoro', '');
         const minutiPassati = navigation.getParam('minutiLavoro', '');
         const secondiPassati = navigation.getParam('secondiLavoro', '');
@@ -49,7 +53,8 @@ class DetailsScreen extends React.Component {
         this.state.minuts = minutiPassati;
         this.state.hours = orePassate;
 
-        // Recupero del parametro passato dalla activity Login
+        // Recupero del parametro passato dalla activity Login, per le Attività
+        // e setto il valore degli state dei timer con il valore recuperato
         const orePassateA = navigation.getParam('oreAttivita', '');
         const minutiPassatiA = navigation.getParam('minutiAttivita', '');
         const secondiPassatiA = navigation.getParam('secondiAttivita', '');
@@ -57,19 +62,158 @@ class DetailsScreen extends React.Component {
         this.state.secA = secondiPassatiA;
         this.state.minutsA = minutiPassatiA;
         this.state.hoursA = orePassateA;
-    } else {
-      this.state.sec = '00';
-      this.state.minuts = '00';
-      this.state.hours = '00';
 
-      this.state.secA = '00';
+    } else {
+
+        // Altrimenti vuol dire che è il primo accesso giornaliero e di conseguenza vado a settare gli
+        // stete dei timer tutti a zero
+        this.state.sec = '00';
+        this.state.minuts = '00';
+        this.state.hours = '00';
+
+        this.state.secA = '00';
         this.state.minutsA = '00';
         this.state.hoursA = '00';
+    }
+    
+    let utenteScelto = nomeUtente.toString()
+
+    // Recupero la data attuale e la formatto, per tutti i giorni della settimana
+    var today = new Date();
+    todayDay = today.getDate()
+    todayDay1 = today.getDate() - 1;
+    todayDay2 = today.getDate() - 2;
+    todayDay3 = today.getDate() - 3;
+    todayDay4 = today.getDate() - 4;
+    todayDay5 = today.getDate() - 5;
+    todayDay6 = today.getDate() - 6;
+    todayMonth = today.getMonth() + 1;
+    todayMo = todayMonth.toString();
+    todayYear = today.getFullYear().toString()
+
+    // Converto in stringa l'intera data ottenuta precedentemente per tutti i giorni della settimana
+    dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+    dataCompleta1 = (todayDay1+'/'+todayMo+'/'+todayYear).toString()
+    dataCompleta2 = (todayDay2+'/'+todayMo+'/'+todayYear).toString()
+    dataCompleta3 = (todayDay3+'/'+todayMo+'/'+todayYear).toString()
+    dataCompleta4 = (todayDay4+'/'+todayMo+'/'+todayYear).toString()
+    dataCompleta5 = (todayDay5+'/'+todayMo+'/'+todayYear).toString()
+    dataCompleta6 = (todayDay6+'/'+todayMo+'/'+todayYear).toString()
+
+    // Vado a ricercare le giornate appena composte all'interno del DB, per poi manipolarle
+    cercoGiornata = GiornataService.findGiornata(utenteScelto,dataCompleta)
+    cercoGiornata1 = GiornataService.findGiornata(utenteScelto,dataCompleta1)
+    cercoGiornata2 = GiornataService.findGiornata(utenteScelto,dataCompleta2)
+    cercoGiornata3 = GiornataService.findGiornata(utenteScelto,dataCompleta3)
+    cercoGiornata4 = GiornataService.findGiornata(utenteScelto,dataCompleta4)
+    cercoGiornata5 = GiornataService.findGiornata(utenteScelto,dataCompleta5)
+    cercoGiornata6 = GiornataService.findGiornata(utenteScelto,dataCompleta6)
+
+    // Calcolo la differernza tra il tempo di lavoro ed il tempo della attività, per ogni singolo 
+    // giormno della setimana precedentemente prelevato, in modo da effettuare dei controlli
+    tempoLavoro = parseInt(GiornataService.findTempoLavoro(utenteScelto,dataCompleta))
+    tempoAttivita = parseInt(GiornataService.findTempoAttivita(utenteScelto,dataCompleta))
+    diffTempo = tempoLavoro -tempoAttivita
+
+    tempoLavoro1 = parseInt(GiornataService.findTempoLavoro(utenteScelto,dataCompleta1))
+    tempoAttivita1 = parseInt(GiornataService.findTempoAttivita(utenteScelto,dataCompleta1))
+    diffTempo1 = tempoLavoro1 -tempoAttivita1
+
+    tempoLavoro2 = parseInt(GiornataService.findTempoLavoro(utenteScelto,dataCompleta2))
+    tempoAttivita2 = parseInt(GiornataService.findTempoAttivita(utenteScelto,dataCompleta2))
+    diffTempo2 = tempoLavoro2 -tempoAttivita2
+
+    tempoLavoro3 = parseInt(GiornataService.findTempoLavoro(utenteScelto,dataCompleta3))
+    tempoAttivita3 = parseInt(GiornataService.findTempoAttivita(utenteScelto,dataCompleta3))
+    diffTempo3 = tempoLavoro3 -tempoAttivita3
+
+    tempoLavoro4 = parseInt(GiornataService.findTempoLavoro(utenteScelto,dataCompleta4))
+    tempoAttivita4 = parseInt(GiornataService.findTempoAttivita(utenteScelto,dataCompleta4))
+    diffTempo4 = tempoLavoro4 -tempoAttivita4
+
+    tempoLavoro5 = parseInt(GiornataService.findTempoLavoro(utenteScelto,dataCompleta5))
+    tempoAttivita5 = parseInt(GiornataService.findTempoAttivita(utenteScelto,dataCompleta5))
+    diffTempo5 = tempoLavoro5 -tempoAttivita5
+
+    tempoLavoro6 = parseInt(GiornataService.findTempoLavoro(utenteScelto,dataCompleta6))
+    tempoAttivita6 = parseInt(GiornataService.findTempoAttivita(utenteScelto,dataCompleta6))
+    diffTempo6 = tempoLavoro6 -tempoAttivita6
+
+    // Controllo e determino per ogni giornata prelevata dal DB, la differenza tra i due timer per
+    // decidere che colore assegnarli in base al risultato ottenuto, ovvero :
+    // - rosso (diff > 1h)  - verde (diff < 1h)  - grigio (non esite la giornata all'interno del DB, no lavoro)
+    if(cercoGiornata == true){
+      if(diffTempo > 100000){
+        this.state.coloreSettimana = 'rosso'
+      }else if(diffTempo <= 100000){  
+        this.state.coloreSettimana = 'verde'
+      }  
+    }else{
+        this.state.coloreSettimana = 'grigio'  
+    }
+
+    if(cercoGiornata1 == true){
+      if(diffTempo1 > 100000){
+        this.state.coloreSettimana1 = 'rosso'
+      }else if(diffTempo1 <= 100000){  
+        this.state.coloreSettimana1 = 'verde'
+      }  
+    }else{
+        this.state.coloreSettimana6 = 'grigio'  
+    }
+
+    if(cercoGiornata2 == true){
+      if(diffTempo2 > 100000){
+        this.state.coloreSettimana2 = 'rosso'
+      }else if(diffTempo2 <= 100000){  
+        this.state.coloreSettimana2 = 'verde'
+      }  
+    }else{
+        this.state.coloreSettimana2 = 'grigio'  
+    }
+
+    if(cercoGiornata3 == true){
+      if(diffTempo3 > 100000){
+        this.state.coloreSettimana3 = 'rosso'
+      }else if(diffTempo3 <= 100000){  
+        this.state.coloreSettimana3 = 'verde'
+      }  
+    }else{
+        this.state.coloreSettimana3 = 'grigio'  
+    }
+
+    if(cercoGiornata4 == true){
+      if(diffTempo4 > 100000){
+        this.state.coloreSettimana4 = 'rosso'
+      }else if(diffTempo4 <= 100000){  
+        this.state.coloreSettimana4 = 'verde'
+      }  
+    }else{
+        this.state.coloreSettimana4 = 'grigio'  
+    }
+
+    if(cercoGiornata5 == true){
+      if(diffTempo5 > 100000){
+        this.state.coloreSettimana5 = 'rosso'
+      }else if(diffTempo5 <= 100000){  
+        this.state.coloreSettimana5 = 'verde'
+      }  
+    }else{
+        this.state.coloreSettimana5 = 'grigio'  
+    }
+
+    if(cercoGiornata6 == true){
+      if(diffTempo6 > 100000){
+        this.state.coloreSettimana6 = 'rosso'
+      }else if(diffTempo6 <= 100000){  
+        this.state.coloreSettimana6 = 'verde'
+      }  
+    }else{
+        this.state.coloreSettimana6 = 'grigio'  
     }
 
   }
   
-
   // Setto i valori di default, che mi serviranno per la gestione dei timer
   state = {
     // Valori per il timer del turno
@@ -90,6 +234,14 @@ class DetailsScreen extends React.Component {
     attivita: 'Inizia Attività',
     startDisabledA: true,
     stopDisabledA: false,
+    // Valori per la scelta del colore della preview dell'ultima settimana
+    coloreSettimana: '',
+    coloreSettimana1: '',
+    coloreSettimana2: '',
+    coloreSettimana3: '',
+    coloreSettimana4: '',
+    coloreSettimana5: '',
+    coloreSettimana6: ''
 }
 
 // Eseguo il bind delle funzioni, referenziandole una volta sola
@@ -149,28 +301,33 @@ constructor( props ) {
 
   // Scegliere start o stop del timer attività
   startAttivita(){
-    if(this.state.attivita === 'Inizia Attività'){
+    if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Inizio Turno'){
         this.startAt();
+        this.start()
         this.state.attivita = 'Pausa Attività';
+        this.state.turno = 'Pausa Turno'
+      } else if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Pausa Turno') {
+            this.startAt()
+            this.state.attivita = 'Pausa Attività'
       } else {
-        this.onButtonStopA();
-        this.state.attivita = 'Inizia Attività';
-        let utenteScelto = nomeUtente.toString()
+            this.onButtonStopA();
+            this.state.attivita = 'Inizia Attività';
+            let utenteScelto = nomeUtente.toString()
 
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-        todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+            // Recupero la data attuale e la formatto
+            var today = new Date();
+            todayDay = today.getDate();
+            todayMonth = today.getMonth() + 1;
+            todayMo = todayMonth.toString();
+            todayYear = today.getFullYear().toString()
+            dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
 
-        // Aggiorno il DB sul tempo della attività
-        let sec = this.state.secA.toString()
-        let min = this.state.minutsA.toString()
-        let hou = this.state.hoursA.toString()
-        let tempo = (hou+min+sec)
-        GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
+            // Aggiorno il DB sul tempo della attività
+            let sec = this.state.secA.toString()
+            let min = this.state.minutsA.toString()
+            let hou = this.state.hoursA.toString()
+            let tempo = (hou+min+sec)
+            GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
       }
   }
 
@@ -347,25 +504,25 @@ constructor( props ) {
 
         <Text style={{position:'absolute',top:150,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
         
-        <View style={styles.CircleShapeView1}>
+        <View style={[(this.state.coloreSettimana6 === 'verde') ? styles.CircleShapeView1OK : (this.state.coloreSettimana6 === 'rosso') ? styles.CircleShapeView1ERRORE : styles.CircleShapeView1VUOTO]}>
           <Text onPress = {() => this.goToHistory6()} >{date-6}</Text>
         </View>
-        <View style={styles.CircleShapeView2}>
+        <View style={[(this.state.coloreSettimana5 === 'verde') ? styles.CircleShapeView2OK : (this.state.coloreSettimana5 === 'rosso') ? styles.CircleShapeView2ERRORE : styles.CircleShapeView2VUOTO]}>
           <Text onPress = {() => this.goToHistory5()} >{date-5}</Text>
         </View>
-        <View style={styles.CircleShapeView3}>
+        <View style={[(this.state.coloreSettimana4 === 'verde') ? styles.CircleShapeView3OK : (this.state.coloreSettimana4 === 'rosso') ? styles.CircleShapeView3ERRORE : styles.CircleShapeView3VUOTO]}>
           <Text onPress = {() => this.goToHistory4()} >{date-4}</Text>
         </View>
-        <View style={styles.CircleShapeView4}>
+        <View style={[(this.state.coloreSettimana3 === 'verde') ? styles.CircleShapeView4OK : (this.state.coloreSettimana3 === 'rosso') ? styles.CircleShapeView4ERRORE : styles.CircleShapeView4VUOTO]}>
           <Text onPress = {() => this.goToHistory3()} >{date-3}</Text>
         </View>
-        <View style={styles.CircleShapeView5}>
+        <View style={[(this.state.coloreSettimana2 === 'verde') ? styles.CircleShapeView5OK : (this.state.coloreSettimana2 === 'rosso') ? styles.CircleShapeView5ERRORE : styles.CircleShapeView5VUOTO]}>
           <Text onPress = {() => this.goToHistory2()} >{date-2}</Text>
         </View>
-        <View style={styles.CircleShapeView6}>
+        <View style={[(this.state.coloreSettimana1 === 'verde') ? styles.CircleShapeView6OK : (this.state.coloreSettimana1 === 'rosso') ? styles.CircleShapeView6ERRORE : styles.CircleShapeView6VUOTO]}>
           <Text onPress = {() => this.goToHistory1()} >{date-1}</Text>
         </View>
-        <View style={styles.CircleShapeView7}>
+        <View style={[(this.state.coloreSettimana === 'verde') ? styles.CircleShapeView7OK : (this.state.coloreSettimana === 'rosso') ? styles.CircleShapeView7ERRORE : styles.CircleShapeView7VUOTO]}>
           <Text>{date}</Text>
         </View>
 
@@ -440,39 +597,103 @@ export default DetailsScreen;
       top:315,
       borderRadius:8
     },
-   CircleShapeView1: {
+   CircleShapeView1OK: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: '#FF6666',
+     backgroundColor: 'lightgreen',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
      top:175,
    },
-   CircleShapeView2: {
+   CircleShapeView1ERRORE: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: '#FF7F7F',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+  },
+  CircleShapeView1VUOTO: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+  },
+   CircleShapeView2OK: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: 'lightgrey',
+     backgroundColor: 'lightgreen',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
      top:175,
      marginLeft:40
    },
-   CircleShapeView3: {
+   CircleShapeView2ERRORE: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: '#FF7F7F',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft:80
+  },
+  CircleShapeView2VUOTO: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft:80
+  },
+   CircleShapeView3OK: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
-     backgroundColor: 'lightgrey',
+     backgroundColor: 'lightgreen',
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
      top:175,
      marginLeft:80
    },
-   CircleShapeView4: {
+   CircleShapeView3ERROE: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: '#FF7F7F',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft:80
+  },
+  CircleShapeView3VUOTO: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft: 80
+  },
+   CircleShapeView4OK: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
@@ -483,7 +704,29 @@ export default DetailsScreen;
      top:175,
      marginLeft:120,
    },
-   CircleShapeView5: {
+   CircleShapeView4ERRORE: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: '#FF7F7F',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft:120,
+  },
+  CircleShapeView4VUOTO: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft: 120
+  },
+   CircleShapeView5OK: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
@@ -494,7 +737,29 @@ export default DetailsScreen;
      top:175,
      marginLeft:160,
      },
-     CircleShapeView6: {
+     CircleShapeView5ERRORE: {
+      width: 30,
+      height: 30,
+      borderRadius: 30/2,
+      backgroundColor: '#FF7F7F',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      top:175,
+      marginLeft:160,
+      },
+      CircleShapeView5VUOTO: {
+        width: 30,
+        height: 30,
+        borderRadius: 30/2,
+        backgroundColor: 'lightgrey',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        top:175,
+        marginLeft: 160
+      },
+     CircleShapeView6OK: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
@@ -505,7 +770,29 @@ export default DetailsScreen;
      top:175,
      marginLeft:200
      },
-     CircleShapeView7: {
+     CircleShapeView6ERRORE: {
+      width: 30,
+      height: 30,
+      borderRadius: 30/2,
+      backgroundColor: '#FF7F7F',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      top:175,
+      marginLeft:200
+      },
+      CircleShapeView6VUOTO: {
+        width: 30,
+        height: 30,
+        borderRadius: 30/2,
+        backgroundColor: 'lightgrey',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        top:175,
+        marginLeft: 200
+      }, 
+     CircleShapeView7OK: {
      width: 30,
      height: 30,
      borderRadius: 30/2,
@@ -518,4 +805,30 @@ export default DetailsScreen;
      borderWidth:2,
      borderColor: 'black'
    },
+   CircleShapeView7ERRORE: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: '#FF7F7F',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft:240,
+    borderWidth:2,
+    borderColor: 'black'
+  },
+  CircleShapeView7VUOTO: {
+    width: 30,
+    height: 30,
+    borderRadius: 30/2,
+    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top:175,
+    marginLeft:240,
+    borderWidth:2,
+    borderColor: 'black'
+  },
  })

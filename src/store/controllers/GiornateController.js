@@ -25,7 +25,7 @@ let GiornataService = {
         return true;
     
     return false;
-  },
+  }, 
 
   updateTempoLavoro: function(utente,tempoAggiornato,dataGiornata) {
     aggiornaLavoro = repository.objects('Giornat').filtered('utente == $0 && data == $1',utente,dataGiornata);
