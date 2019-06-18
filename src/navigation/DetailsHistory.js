@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Button } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Button, FlatList } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 // Importo lo schema, il model ed il controller
 import Database from '../store/index'
 import GiornataService from '../store/controllers/GiornateController'
 import GiornateModel from '../store/models/GiornateModel'
+
+var miaData;
 
 class DetailsHistory extends React.Component {
 
@@ -17,11 +19,19 @@ class DetailsHistory extends React.Component {
     }
   });
 
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      data: []
+    };
+  }
+
   render() {
 
     // Recupero del parametro passato dalla activity Search
     const { navigation } = this.props;
-    const miaData = navigation.getParam('dataGiorno', '');
+    miaData = navigation.getParam('dataGiorno', '');
 
     // Recupero il nome dell'utente 
     let utenteScelto = nomeUtente.toString()
@@ -32,6 +42,13 @@ class DetailsHistory extends React.Component {
     todayMo = todayMonth.toString();
     todayYear = today.getFullYear().toString()
     dataCompleta = (miaData+'/'+todayMo+'/'+todayYear).toString()
+
+    // Recupero dal DB i task svolti nella giornata selezionata
+    taskTrovati = GiornataService.findTask(utenteScelto,dataCompleta)
+    //console.log(taskTrovati)
+    this.state.data = taskTrovati
+    console.log(this.state.data)
+
 
     // Recupero dal DB il tempo di lavoro della giornata passata dalla activity principale details
     tempoTrovato = GiornataService.findTempoLavoro(utenteScelto,dataCompleta)
@@ -70,9 +87,26 @@ class DetailsHistory extends React.Component {
         <Text style={{position:'absolute',top:100, left:170,fontFamily:'Arial', fontSize:16}}> {ore+':'+minuti+':'+secondi} </Text>
         <Text style={{position:'absolute',top:120, left:165 ,fontFamily:'Arial', fontSize:14}}>Ore Lavoro</Text>
 
+        <Text style={{position:'absolute',top:160,fontFamily:'Arial', fontSize:16}}>Lista delle attività svolte</Text>
+
+        <FlatList
+            style={{position:'absolute',top:180}}
+            data={this.state.data}
+            renderItem={({item}) => <Text style={styles.item} > • {item}</Text>}
+            keyExtractor={(item, index) => index.toString()}
+          />
+
       </View>
     );
   }
 }
 
 export default DetailsHistory;
+
+const styles = StyleSheet.create({
+  item: {
+   padding: 5,
+   fontSize: 18,
+   height: 30,
+ },
+})

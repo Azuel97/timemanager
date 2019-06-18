@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Button } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Button, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 // Importo lo schema, il model ed il controller
 import Database from '../store/index'
@@ -315,7 +315,6 @@ constructor( props ) {
 //     this.start();
 // }
 
-
   // Scegliere start o stop del timer turno
   startTurno(){
       if(this.state.turno === 'Inizio Turno'){
@@ -358,10 +357,6 @@ constructor( props ) {
   // Scegliere start o stop del timer attività
   startAttivita(){
     if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Inizio Turno'){
-        this.startAt();
-        this.start()
-        this.state.attivita = 'Pausa Attività';
-        this.state.turno = 'Pausa Turno'
 
         // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
         // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
@@ -374,12 +369,20 @@ constructor( props ) {
         todayYear = today.getFullYear().toString()
         dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
         // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
-        GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+        taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+        console.log(taskSalvato)
+
+        if(taskSalvato === true){
+          Alert.alert('Attenzione','Scelta task obbligatoria')
+        }else{
+          this.startAt();
+          this.start()
+          this.state.attivita = 'Pausa Attività';
+          this.state.turno = 'Pausa Turno'
+        }
 
 
       } else if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Pausa Turno') {
-            this.startAt()
-            this.state.attivita = 'Pausa Attività'
 
             // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
             // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
@@ -392,7 +395,14 @@ constructor( props ) {
             todayYear = today.getFullYear().toString()
             dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
             // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
-            GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+            taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+
+            if(taskSalvato === true){
+              Alert.alert('Attenzione','Scelta task obbligatoria')
+            }else{
+              this.startAt()
+              this.state.attivita = 'Pausa Attività'
+            }
 
       } else {
             this.onButtonStopA();
@@ -413,6 +423,7 @@ constructor( props ) {
             let hou = this.state.hoursA.toString()
             let tempo = (hou+min+sec)
             GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
+
       }
   }
 

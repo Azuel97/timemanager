@@ -24,11 +24,17 @@ let GiornataService = {
     if (repository.objects('Giorn').filtered(" utente = '" + utente + "' && data = '" + dataGiornata + "'").length) 
         return true;
     
+    // Altrimenti se non esiste nessun accesso giornaliero ritorno false
     return false;
   }, 
 
   // Salva task effettuati duarante la giornata
   saveTask: function(utente,dataGiornata,mioTask) {
+    // Se il task passato è vuoto, allora ritorna true che verrà utilizzato per la mamipolazione
+    if(mioTask === "")
+        return true
+
+    // Altrimenti eseguo la query ed aggiungo il task al DB
     salvaTask = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
     repository.write(() => {
       for (let p of salvaTask) {
@@ -37,6 +43,22 @@ let GiornataService = {
   })
   },
 
+  // Recupero i task del utente e della giornata selezionata
+  findTask: function(utente,dataGiornata) {
+     // Altrimenti eseguo la query ed aggiungo il task al DB
+     trovaTask = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
+     taskTrovati = []
+     repository.write(() => {
+       for (let p of trovaTask) {
+         count = p.task.length
+          for(let i=0; i<count; i++)
+           taskTrovati.push(p.task[i])
+       }
+   })
+   return taskTrovati
+  },
+
+  // Aggiorna nel database il valore del timer del lavoro
   updateTempoLavoro: function(utente,tempoAggiornato,dataGiornata) {
     aggiornaLavoro = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
     repository.write(() => {
@@ -46,6 +68,7 @@ let GiornataService = {
     })
   },
 
+  // Aggiorna nel database il valore del timer delle attività
   updateTempoAttivita: function(utente,tempoAggiornato,dataGiornata) {
     aggiornaAttivita = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
     repository.write(() => {
@@ -73,7 +96,7 @@ let GiornataService = {
     // Se non è presente all'interno del DB la data cercata, allora ritorno come default il valore '000000'
     if (!repository.objects('Giorn').filtered(" utente = '" + utente + "' && data = '" + dataGiornata + "'").length) 
         return '000000';
-        
+
     trovaTempo = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
     repository.write(() => {
       for (let p of trovaTempo) {
@@ -82,7 +105,7 @@ let GiornataService = {
     })
     return tempoTrovato
   },
- 
+  
   update: function(callback) {
     if (!callback) return;
     repository.write(() => {
