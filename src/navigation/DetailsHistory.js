@@ -39,7 +39,7 @@ class DetailsHistory extends React.Component {
     let ore = tempoStringa.substring(0,2)
     let minuti = tempoStringa.substring(2,4)
     let secondi = tempoStringa.substring(4,6)
-    console.log(ore+':'+minuti+':'+secondi)
+    //console.log(ore+':'+minuti+':'+secondi)
 
     // Recupero dal DB il tempo di attività della giornata passata dalla activity principale details
     tempoTrovatoAttivita = GiornataService.findTempoAttivita(utenteScelto,dataCompleta)
@@ -47,7 +47,7 @@ class DetailsHistory extends React.Component {
     let oreA = tempoStringaAttivita.substring(0,2)
     let minutiA = tempoStringaAttivita.substring(2,4)
     let secondiA = tempoStringaAttivita.substring(4,6)
-    console.log(ore+':'+minuti+':'+secondi)
+    //console.log(ore+':'+minuti+':'+secondi)
 
     return (
       <View style={{

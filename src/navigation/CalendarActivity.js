@@ -111,6 +111,41 @@ class CalendarActivity extends React.Component {
                   '2019-06-13': {
                     customStyles: {
                       container: {
+                        backgroundColor: '#FF6666'
+                      },
+                    },
+                  },
+                  '2019-06-14': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgreen'
+                      },
+                    },
+                  },
+                  '2019-06-15': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgrey'
+                      },
+                    },
+                  },
+                  '2019-06-16': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgrey'
+                      },
+                    },
+                  },
+                  '2019-06-17': {
+                    customStyles: {
+                      container: {
+                        backgroundColor: 'lightgreen'
+                      },
+                    },
+                  },
+                  '2019-06-18': {
+                    customStyles: {
+                      container: {
                         backgroundColor: 'lightgreen'
                       },
                     },

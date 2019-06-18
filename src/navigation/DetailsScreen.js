@@ -10,6 +10,8 @@ import GiornateModel from '../store/models/GiornateModel'
 var today = new Date();
 date = today.getDate();
 
+var mioTask
+
 class DetailsScreen extends React.Component {
 
   // Modifica la navigationBar
@@ -27,7 +29,61 @@ class DetailsScreen extends React.Component {
 
   // Funzione di navigazione verso la home, come logout
   _logout = () => {
-    this.props.navigation.navigate('Home')
+
+    if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Inizio Turno') {
+        this.props.navigation.navigate('Home')
+    } else if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Pausa Turno') {
+        this.onButtonStop()
+        let utenteScelto = nomeUtente.toString()
+
+        // Recupero la data attuale e la formatto
+        var today = new Date();
+        todayDay = today.getDate();
+        todayMonth = today.getMonth() + 1;
+        todayMo = todayMonth.toString();
+        todayYear = today.getFullYear().toString()
+        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+
+        // Aggiorno il DB sul tempo di lavoro
+        let sec = this.state.sec.toString()
+        let min = this.state.minuts.toString()
+        let hou = this.state.hours.toString()
+        let tempo = (hou+min+sec)
+        GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
+
+        this.props.navigation.navigate('Home')
+    } else if(this.state.attivita === 'Pausa Attività' && this.state.turno === 'Pausa Turno')
+        // Quando effettuo il logout e i timer stanno ancora andando gli stoppo e aggiorno i valori
+        // all'interno del database in modo da essere sempre aggiornato
+        this.onButtonStop()
+        this.onButtonStopA()
+
+        let utenteScelto = nomeUtente.toString()
+
+        // Recupero la data attuale e la formatto
+        var today = new Date();
+        todayDay = today.getDate();
+        todayMonth = today.getMonth() + 1;
+        todayMo = todayMonth.toString();
+        todayYear = today.getFullYear().toString()
+        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+
+        // Aggiorno il DB sul tempo di lavoro
+        let sec = this.state.sec.toString()
+        let min = this.state.minuts.toString()
+        let hou = this.state.hours.toString()
+        let tempo = (hou+min+sec)
+        GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
+
+        // Aggiorno il DB sul tempo della attività
+        let secA = this.state.secA.toString()
+        let minA = this.state.minutsA.toString()
+        let houA = this.state.hoursA.toString()
+        // let tempoA = parseInt(houA+minA+secA)
+        let tempoA = (houA+minA+secA)
+        GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
+
+        this.props.navigation.navigate('Home')
   }
 
   // Quando viene montato passo il parametro, serve per il funzionamento del click sulla navigationbar
@@ -143,9 +199,9 @@ class DetailsScreen extends React.Component {
     // decidere che colore assegnarli in base al risultato ottenuto, ovvero :
     // - rosso (diff > 1h)  - verde (diff < 1h)  - grigio (non esite la giornata all'interno del DB, no lavoro)
     if(cercoGiornata == true){
-      if(diffTempo > 100000){
+      if(diffTempo > 10000){
         this.state.coloreSettimana = 'rosso'
-      }else if(diffTempo <= 100000){  
+      }else if(diffTempo <= 10000){  
         this.state.coloreSettimana = 'verde'
       }  
     }else{
@@ -153,9 +209,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata1 == true){
-      if(diffTempo1 > 100000){
+      if(diffTempo1 > 10000){
         this.state.coloreSettimana1 = 'rosso'
-      }else if(diffTempo1 <= 100000){  
+      }else if(diffTempo1 <= 10000){  
         this.state.coloreSettimana1 = 'verde'
       }  
     }else{
@@ -163,9 +219,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata2 == true){
-      if(diffTempo2 > 100000){
+      if(diffTempo2 > 10000){
         this.state.coloreSettimana2 = 'rosso'
-      }else if(diffTempo2 <= 100000){  
+      }else if(diffTempo2 <= 10000){  
         this.state.coloreSettimana2 = 'verde'
       }  
     }else{
@@ -173,9 +229,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata3 == true){
-      if(diffTempo3 > 100000){
+      if(diffTempo3 > 10000){
         this.state.coloreSettimana3 = 'rosso'
-      }else if(diffTempo3 <= 100000){  
+      }else if(diffTempo3 <= 10000){  
         this.state.coloreSettimana3 = 'verde'
       }  
     }else{
@@ -183,9 +239,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata4 == true){
-      if(diffTempo4 > 100000){
+      if(diffTempo4 > 10000){
         this.state.coloreSettimana4 = 'rosso'
-      }else if(diffTempo4 <= 100000){  
+      }else if(diffTempo4 <= 10000){  
         this.state.coloreSettimana4 = 'verde'
       }  
     }else{
@@ -193,9 +249,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata5 == true){
-      if(diffTempo5 > 100000){
+      if(diffTempo5 > 10000){
         this.state.coloreSettimana5 = 'rosso'
-      }else if(diffTempo5 <= 100000){  
+      }else if(diffTempo5 <= 10000){  
         this.state.coloreSettimana5 = 'verde'
       }  
     }else{
@@ -203,9 +259,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata6 == true){
-      if(diffTempo6 > 100000){
+      if(diffTempo6 > 10000){
         this.state.coloreSettimana6 = 'rosso'
-      }else if(diffTempo6 <= 100000){  
+      }else if(diffTempo6 <= 10000){  
         this.state.coloreSettimana6 = 'verde'
       }  
     }else{
@@ -306,9 +362,38 @@ constructor( props ) {
         this.start()
         this.state.attivita = 'Pausa Attività';
         this.state.turno = 'Pausa Turno'
+
+        // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
+        // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
+        let utenteScelto = nomeUtente.toString()
+        // Recupero la data attuale e la formatto
+        var today = new Date();
+        todayDay = today.getDate();
+        todayMonth = today.getMonth() + 1;
+        todayMo = todayMonth.toString();
+        todayYear = today.getFullYear().toString()
+        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+        // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
+        GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+
+
       } else if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Pausa Turno') {
             this.startAt()
             this.state.attivita = 'Pausa Attività'
+
+            // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
+            // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
+            let utenteScelto = nomeUtente.toString()
+            // Recupero la data attuale e la formatto
+            var today = new Date();
+            todayDay = today.getDate();
+            todayMonth = today.getMonth() + 1;
+            todayMo = todayMonth.toString();
+            todayYear = today.getFullYear().toString()
+            dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+            // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
+            GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+
       } else {
             this.onButtonStopA();
             this.state.attivita = 'Inizia Attività';
@@ -474,7 +559,7 @@ constructor( props ) {
 
     // Recupero del parametro passato dalla activity Search
     const { navigation } = this.props;
-    const mioTask = navigation.getParam('myTask', '');
+    mioTask = navigation.getParam('myTask', '');
 
     // // Recupero la data attuale
     // var today = new Date();
