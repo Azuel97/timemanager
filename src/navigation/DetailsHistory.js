@@ -35,17 +35,19 @@ class DetailsHistory extends React.Component {
 
     // Recupero dal DB il tempo di lavoro della giornata passata dalla activity principale details
     tempoTrovato = GiornataService.findTempoLavoro(utenteScelto,dataCompleta)
-    let tempoStringa = tempoTrovato.toString()
-    let ore = tempoStringa.substring(0,1)
-    let minuti = tempoStringa.substring(1,3)
-    let secondi = tempoStringa.substring(3,5)
+    let tempoStringa = tempoTrovato.toString()  
+    let ore = tempoStringa.substring(0,2)
+    let minuti = tempoStringa.substring(2,4)
+    let secondi = tempoStringa.substring(4,6)
+    console.log(ore+':'+minuti+':'+secondi)
 
     // Recupero dal DB il tempo di attività della giornata passata dalla activity principale details
     tempoTrovatoAttivita = GiornataService.findTempoAttivita(utenteScelto,dataCompleta)
     let tempoStringaAttivita = tempoTrovatoAttivita.toString()
-    let oreA = tempoStringaAttivita.substring(0,1)
-    let minutiA = tempoStringaAttivita.substring(1,3)
-    let secondiA = tempoStringaAttivita.substring(3,5)
+    let oreA = tempoStringaAttivita.substring(0,2)
+    let minutiA = tempoStringaAttivita.substring(2,4)
+    let secondiA = tempoStringaAttivita.substring(4,6)
+    console.log(ore+':'+minuti+':'+secondi)
 
     return (
       <View style={{

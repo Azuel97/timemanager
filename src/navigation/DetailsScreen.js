@@ -647,7 +647,7 @@ export default DetailsScreen;
     alignItems: 'center',
     position: 'absolute',
     top:175,
-    marginLeft:80
+    marginLeft:40
   },
   CircleShapeView2VUOTO: {
     width: 30,
@@ -658,7 +658,7 @@ export default DetailsScreen;
     alignItems: 'center',
     position: 'absolute',
     top:175,
-    marginLeft:80
+    marginLeft:40
   },
    CircleShapeView3OK: {
      width: 30,
