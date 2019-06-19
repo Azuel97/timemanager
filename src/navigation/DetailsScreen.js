@@ -368,10 +368,6 @@ constructor( props ) {
 
   // Scegliere start o stop del timer attività
   startAttivita(){
-    // this.state.abilitaStartAttivita = true
-    // this.state.abilitaStopAttivita = false
-    // this.state.abilitaStartTurno = true
-    // this.state.abilitaStopTurno = false
 
     if(this.state.abilitaStartAttivita === false && this.state.abilitaStartTurno === false){
 
@@ -403,7 +399,6 @@ constructor( props ) {
           this.state.turno = 'Pausa Turno'
         }
 
-
       } else if(this.state.abilitaStartAttivita === false && this.state.abilitaStopTurno === false) {
 
             // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
@@ -427,7 +422,6 @@ constructor( props ) {
               this.state.abilitaStopAttivita = false
               this.state.attivita = 'Pausa Attività'
             }
-
       } 
   }
 
