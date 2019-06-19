@@ -299,7 +299,12 @@ class DetailsScreen extends React.Component {
     coloreSettimana3: '',
     coloreSettimana4: '',
     coloreSettimana5: '',
-    coloreSettimana6: ''
+    coloreSettimana6: '',
+    // Valori per la scelta del bottone selezionato/deselezionato
+    abilitaStartTurno: false,
+    abilitaStopTurno: true,
+    abilitaStartAttivita: false,
+    abilitaStopAttivita: true
 }
 
 // Eseguo il bind delle funzioni, referenziandole una volta sola
@@ -319,12 +324,18 @@ constructor( props ) {
 
   // Scegliere start o stop del timer turno
   startTurno(){
-      if(this.state.turno === 'Inizio Turno'){
-        this.start();
-        this.state.turno = 'Pausa Turno';
+      this.start();
+      this.state.abilitaStartTurno = true
+      this.state.abilitaStopTurno = false
+  }
 
-      } else {
-        this.onButtonStop();
+  stopTurno() {
+    this.state.abilitaStartTurno = false
+    this.state.abilitaStopTurno = true
+    this.state.abilitaStartAttivita = false
+    this.state.abilitaStopAttivita = true
+
+    this.onButtonStop();
         this.onButtonStopA();
         this.state.attivita = 'Inizia Attività'
         this.state.turno = 'Inizio Turno';
@@ -353,12 +364,16 @@ constructor( props ) {
         let tempoA = (houA+minA+secA)
         GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
         console.log(dataCompleta)
-      }
   }
 
   // Scegliere start o stop del timer attività
   startAttivita(){
-    if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Inizio Turno'){
+    // this.state.abilitaStartAttivita = true
+    // this.state.abilitaStopAttivita = false
+    // this.state.abilitaStartTurno = true
+    // this.state.abilitaStopTurno = false
+
+    if(this.state.abilitaStartAttivita === false && this.state.abilitaStartTurno === false){
 
         // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
         // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
@@ -379,12 +394,17 @@ constructor( props ) {
         }else{
           this.startAt();
           this.start()
+          this.state.abilitaStartAttivita = true
+          this.state.abilitaStopAttivita = false
+          this.state.abilitaStartTurno = true
+          this.state.abilitaStopTurno = false
+
           this.state.attivita = 'Pausa Attività';
           this.state.turno = 'Pausa Turno'
         }
 
 
-      } else if(this.state.attivita === 'Inizia Attività' && this.state.turno === 'Pausa Turno') {
+      } else if(this.state.abilitaStartAttivita === false && this.state.abilitaStopTurno === false) {
 
             // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
             // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
@@ -403,11 +423,19 @@ constructor( props ) {
               Alert.alert('Attenzione','Scelta task obbligatoria')
             }else{
               this.startAt()
+              this.state.abilitaStartAttivita = true
+              this.state.abilitaStopAttivita = false
               this.state.attivita = 'Pausa Attività'
             }
 
-      } else {
-            this.onButtonStopA();
+      } 
+  }
+
+  stopAttivita() {
+    this.state.abilitaStartAttivita = false
+    this.state.abilitaStopAttivita = true
+
+    this.onButtonStopA();
             this.state.attivita = 'Inizia Attività';
             let utenteScelto = nomeUtente.toString()
 
@@ -425,8 +453,6 @@ constructor( props ) {
             let hou = this.state.hoursA.toString()
             let tempo = (hou+min+sec)
             GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
-
-      }
   }
 
     // Mettere in pausa il timer del turno
@@ -627,20 +653,33 @@ constructor( props ) {
         <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
         <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text>
 
+         {/* -------------------------------------------------------------------- */}
 
         <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>Task - {mioTask} </Text>
         <TouchableOpacity style={styles.buttonTask} onPress={() => this.goToTask()}>
            <Text style = {styles.submitButtonText}> Visualizza Task </Text>
         </TouchableOpacity>
 
+         {/* -------------------------------------------------------------------- */}
+
         <Text style={{position:'absolute',top:400,fontFamily:'Arial', fontSize:18}}>Attività</Text>
-        <TouchableOpacity style={styles.nuovaAttivita} onPress={() => this.startAttivita()}>
-           <Text style = {styles.submitButtonText}> {this.state.attivita} </Text>
+        <TouchableOpacity disabled={this.state.abilitaStartAttivita} style={this.state.abilitaStartAttivita === false ? styles.nuovaAttivita : styles.nuovaAttivitaDisabilitata } onPress={() => this.startAttivita()}>
+           <Text style = {styles.submitButtonText}> Inizia Attività </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity disabled={this.state.abilitaStopAttivita} style={this.state.abilitaStopAttivita === false ? styles.pausaAttivita : styles.pausaAttivitaDisabilitata } onPress={() => this.stopAttivita()}>
+           <Text style = {styles.submitButtonText}> Pausa Attività </Text>
+        </TouchableOpacity>
+
+        {/* -------------------------------------------------------------------- */}
+
         <Text style={{position:'absolute',top:520,fontFamily:'Arial', fontSize:18}}>Turno</Text>
-        <TouchableOpacity style={styles.nuovoTurno} onPress={() => this.startTurno()}>
-           <Text style = {styles.submitButtonText}> {this.state.turno} </Text>
+        <TouchableOpacity disabled={this.state.abilitaStartTurno} style={this.state.abilitaStartTurno === false ? styles.nuovoTurno : styles.nuovoTurnoDisabilita } onPress={() => this.startTurno()}>
+           <Text style = {styles.submitButtonText}> Inizia Turno </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity disabled={this.state.abilitaStopTurno} style={this.state.abilitaStopTurno === false ? styles.pausaTurno : styles.pausaTurnoDisabilita } onPress={() => this.stopTurno()}>
+           <Text style = {styles.submitButtonText}> Pausa Turno </Text>
         </TouchableOpacity>
         
       </View>
@@ -664,26 +703,104 @@ export default DetailsScreen;
     },
     nuovaAttivita:{
      backgroundColor: 'grey',
-     padding: 25,
+     padding: 5,
+     paddingTop: 25,
      margin: 0,
      height: 70,
-     width:300,
+     width:130,
      alignItems: 'center',
      position:'absolute',
      top:430,
      borderRadius:8
     },
+    nuovaAttivitaDisabilitata:{
+      backgroundColor: 'lightgrey',
+      padding: 5,
+      paddingTop: 25,
+      margin: 0,
+      height: 70,
+      width:130,
+      alignItems: 'center',
+      position:'absolute',
+      top:430,
+      borderRadius:8
+     },
+    pausaAttivita:{
+      backgroundColor: 'grey',
+      padding: 5,
+      paddingTop: 25,
+      margin: 0,
+      height: 70,
+      width:130,
+      alignItems: 'center',
+      position:'absolute',
+      top:430,
+      borderRadius:8,
+      left: 170
+     },
+     pausaAttivitaDisabilitata:{
+      backgroundColor: 'lightgrey',
+      padding: 5,
+      paddingTop: 25,
+      margin: 0,
+      height: 70,
+      width:130,
+      alignItems: 'center',
+      position:'absolute',
+      top:430,
+      borderRadius:8,
+      left: 170
+     },
     nuovoTurno: {
      backgroundColor: 'grey',
-     padding: 25,
+     padding: 10,
+     paddingTop: 25,
      margin: 0,
      height: 70,
-     width:300,
+     width:130,
      alignItems: 'center',
      position:'absolute',
      top:550,
      borderRadius:8
     },
+    nuovoTurnoDisabilita: {
+      backgroundColor: 'lightgrey',
+      padding: 10,
+      paddingTop: 25,
+      margin: 0,
+      height: 70,
+      width:130,
+      alignItems: 'center',
+      position:'absolute',
+      top:550,
+      borderRadius:8
+     },
+    pausaTurno: {
+      backgroundColor: 'grey',
+      padding: 10,
+      paddingTop: 25,
+      margin: 0,
+      height: 70,
+      width:130,
+      alignItems: 'center',
+      position:'absolute',
+      top:550,
+      borderRadius:8,
+      left: 170
+     },
+     pausaTurnoDisabilita: {
+      backgroundColor: 'lightgrey',
+      padding: 10,
+      paddingTop: 25,
+      margin: 0,
+      height: 70,
+      width:130,
+      alignItems: 'center',
+      position:'absolute',
+      top:550,
+      borderRadius:8,
+      left: 170
+     },
     buttonTask:{
       backgroundColor: 'grey',
       padding: 25,
