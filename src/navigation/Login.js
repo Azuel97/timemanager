@@ -30,8 +30,17 @@ class Login extends React.Component {
 
     // Vado a gestire e controllore l'inserimento delle credenziali dell'utenteßß
     login = (email, password) => {
-        nomeUtente = email;
-        // Cripto la password
+
+        // Controllo l'inserimento delle credenziali degli utenti
+        if((email === "") && (password === ""))
+            Alert.alert('Attenzione','Inserire nome e password')
+        else if(email === "")
+            Alert.alert('Atenzione','Inserire il nome')
+        else if(password === "")
+            Alert.alert('Attenzione','Inserire la password')
+
+       nomeUtente = email;
+       // Cripto la password
        var pwdCriptata = btoa(password);
        // Richiamo la funzione di ricerca su l'utente che richiede l'accesso
        utenteScelto = PeopleService.findSpecificUser(email,pwdCriptata)
