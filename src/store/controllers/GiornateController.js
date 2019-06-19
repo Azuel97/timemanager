@@ -31,20 +31,31 @@ let GiornataService = {
   // Salva task effettuati duarante la giornata
   saveTask: function(utente,dataGiornata,mioTask) {
     // Se il task passato è vuoto, allora ritorna true che verrà utilizzato per la mamipolazione
-    if(mioTask === "")
+    if(mioTask === ""){
         return true
+    }
 
-    // Altrimenti eseguo la query ed aggiungo il task al DB
+    // Altrimenti eseguo la query ed aggiungo il task al DB, controllando se però è già esistene lo stesso
+    // task ed in quel caso non lo aggiungo ancora alla lista dei task nel DB
     salvaTask = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
     repository.write(() => {
       for (let p of salvaTask) {
-          p.task.push(mioTask)
+        count = p.task.length
+          for(let i=0; i<count; i++){
+            // Controllo se il miotask da inserire è già esistente all'interno della lista dei task
+            if(mioTask === p.task[i]){
+              return true
+            }
+          }
+        // Se il task non è già presente lo aggiungo alla lista  
+        p.task.push(mioTask)
       }
-  })
+    })
+    return false
   },
 
-  // Recupero i task del utente e della giornata selezionata
-  findTask: function(utente,dataGiornata) {
+  // Recupero tutti task del utente e della giornata selezionata
+  findAllTask: function(utente,dataGiornata) {
      // Altrimenti eseguo la query ed aggiungo il task al DB
      trovaTask = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
      taskTrovati = []

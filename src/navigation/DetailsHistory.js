@@ -44,7 +44,7 @@ class DetailsHistory extends React.Component {
     dataCompleta = (miaData+'/'+todayMo+'/'+todayYear).toString()
 
     // Recupero dal DB i task svolti nella giornata selezionata
-    taskTrovati = GiornataService.findTask(utenteScelto,dataCompleta)
+    taskTrovati = GiornataService.findAllTask(utenteScelto,dataCompleta)
     //console.log(taskTrovati)
     this.state.data = taskTrovati
     console.log(this.state.data)
@@ -87,10 +87,10 @@ class DetailsHistory extends React.Component {
         <Text style={{position:'absolute',top:100, left:170,fontFamily:'Arial', fontSize:16}}> {ore+':'+minuti+':'+secondi} </Text>
         <Text style={{position:'absolute',top:120, left:165 ,fontFamily:'Arial', fontSize:14}}>Ore Lavoro</Text>
 
-        <Text style={{position:'absolute',top:160,fontFamily:'Arial', fontSize:16}}>Lista delle attività svolte</Text>
+        <Text style={{position:'absolute',top:180,fontFamily:'Arial', fontSize:16}}>Lista delle attività svolte</Text>
 
         <FlatList
-            style={{position:'absolute',top:180}}
+            style={{position:'absolute',top:200}}
             data={this.state.data}
             renderItem={({item}) => <Text style={styles.item} > • {item}</Text>}
             keyExtractor={(item, index) => index.toString()}
@@ -106,7 +106,7 @@ export default DetailsHistory;
 const styles = StyleSheet.create({
   item: {
    padding: 5,
-   fontSize: 18,
+   fontSize: 16,
    height: 30,
  },
 })
