@@ -18,6 +18,8 @@ class DetailsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'TimeManager',
     headerTintColor: 'black',
+    // Disabilito le gestures
+    gesturesEnabled: false,
     headerStyle: {
       backgroundColor: 'lightgrey'
     },

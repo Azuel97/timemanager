@@ -180,7 +180,7 @@ class Login extends React.Component {
 
  const styles = StyleSheet.create({
     container: {
-       paddingTop: 150
+       paddingTop: 150,
     },
     input: {
        margin: 15,
