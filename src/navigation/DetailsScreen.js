@@ -30,6 +30,45 @@ class DetailsScreen extends React.Component {
     headerLeft: null
   });
 
+  // Eseguo il bind delle funzioni, referenziandole una volta sola
+  constructor( props ) {
+    super( props );
+    this.onButtonStop = this.onButtonStop.bind(this);
+    this.start = this.start.bind(this);
+    this.startAttivita = this.startAttivita.bind(this);
+    this.onButtonStopA = this.onButtonStopA.bind(this);
+    this.goToCalendar = this.goToCalendar.bind(this);
+  }
+
+  dataAttuale(){
+    // Recupero la data attuale e la formatto
+    var today = new Date();
+    todayDay = today.getDate();
+    todayMonth = today.getMonth() + 1;
+    todayMo = todayMonth.toString();
+    todayYear = today.getFullYear().toString()
+    dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+    return dataCompleta
+  }
+
+  tempoTurno() {
+    // Aggiorno il DB sul tempo di lavoro
+    let sec = this.state.sec.toString()
+    let min = this.state.minuts.toString()
+    let hou = this.state.hours.toString()
+    let tempo = (hou+min+sec)
+    return tempo
+  }
+
+  tempoA() {
+    // Aggiorno il DB sul tempo di lavoro
+    let secA = this.state.secA.toString()
+    let minA = this.state.minutsA.toString()
+    let houA = this.state.hoursA.toString()
+    let tempo = (houA+minA+secA)
+    return tempo
+  }
+
   // Funzione di navigazione verso la home, come logout
   _logout = () => {
 
@@ -42,11 +81,8 @@ class DetailsScreen extends React.Component {
         // Recupero la data
         dataCompleta = this.dataAttuale()
 
-        // Aggiorno il DB sul tempo di lavoro
-        let sec = this.state.sec.toString()
-        let min = this.state.minuts.toString()
-        let hou = this.state.hours.toString()
-        let tempo = (hou+min+sec)
+         // Aggiorno il DB sul tempo di lavoro
+        tempo = this.tempoTurno()
         GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
 
         this.props.navigation.navigate('Home')
@@ -62,18 +98,11 @@ class DetailsScreen extends React.Component {
         dataCompleta = this.dataAttuale()
 
         // Aggiorno il DB sul tempo di lavoro
-        let sec = this.state.sec.toString()
-        let min = this.state.minuts.toString()
-        let hou = this.state.hours.toString()
-        let tempo = (hou+min+sec)
+        tempo = this.tempoTurno()
         GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
 
         // Aggiorno il DB sul tempo della attività
-        let secA = this.state.secA.toString()
-        let minA = this.state.minutsA.toString()
-        let houA = this.state.hoursA.toString()
-        // let tempoA = parseInt(houA+minA+secA)
-        let tempoA = (houA+minA+secA)
+        tempo = this.tempoA()
         GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
 
         this.props.navigation.navigate('Home')
@@ -296,29 +325,7 @@ class DetailsScreen extends React.Component {
     abilitaStopTurno: true,
     abilitaStartAttivita: false,
     abilitaStopAttivita: true
-}
-
-// Eseguo il bind delle funzioni, referenziandole una volta sola
-constructor( props ) {
-  super( props );
-  this.onButtonStop = this.onButtonStop.bind(this);
-  this.start = this.start.bind(this);
-  this.startAttivita = this.startAttivita.bind(this);
-  this.onButtonStopA = this.onButtonStopA.bind(this);
-  this.goToCalendar = this.goToCalendar.bind(this);
-  this.dataAttuale = this.dataAttuale.bind(this);
-}
-
-dataAttuale(){
-  // Recupero la data attuale e la formatto
-  var today = new Date();
-  todayDay = today.getDate();
-  todayMonth = today.getMonth() + 1;
-  todayMo = todayMonth.toString();
-  todayYear = today.getFullYear().toString()
-  dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
-  return dataCompleta
-}
+  }
 
   // Scegliere start o stop del timer turno
   startTurno(){
@@ -343,18 +350,11 @@ dataAttuale(){
     dataCompleta = this.dataAttuale()
 
     // Aggiorno il DB sul tempo di lavoro
-    let sec = this.state.sec.toString()
-    let min = this.state.minuts.toString()
-    let hou = this.state.hours.toString()
-    let tempo = (hou+min+sec)
+    tempo = this.tempoTurno()
     GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
 
-    // Aggiorno il DB sul tempo della attività
-    let secA = this.state.secA.toString()
-    let minA = this.state.minutsA.toString()
-    let houA = this.state.hoursA.toString()
-    // let tempoA = parseInt(houA+minA+secA)
-    let tempoA = (houA+minA+secA)
+    /// Aggiorno il DB sul tempo della attività
+    tempoA = this.tempoA()
     GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
     console.log(dataCompleta)
   }
@@ -416,20 +416,12 @@ dataAttuale(){
     this.state.attivita = 'Inizia Attività';
     let utenteScelto = nomeUtente.toString()
 
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-         todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+    // Recupero la data
+    dataCompleta = this.dataAttuale()
 
-        // Aggiorno il DB sul tempo della attività
-        let sec = this.state.secA.toString()
-        let min = this.state.minutsA.toString()
-        let hou = this.state.hoursA.toString()
-        let tempo = (hou+min+sec)
-        GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
+    // Aggiorno il DB sul tempo della attività
+    tempo = this.tempoA()
+    GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
   }
 
     // Mettere in pausa il timer del turno

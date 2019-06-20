@@ -95,9 +95,12 @@ class Login extends React.Component {
                     let secondiA = tempoStringaAttivita.substring(4,6)
                     console.log(ore+':'+minuti+':'+secondi)
 
+                    taskTrovato = GiornataService.findLastTask(utenteScelto,dataCompleta)
+
                     // Passo alla activity principale 'Details' i valori dei timer che sono stati salvati
                     // sul db, in modo da recuperre dove erano rimasti prima di effettuare il logout
                     this.props.navigation.navigate('Details', {
+                        task: taskTrovato,
                         oreLavoro: ore,
                         minutiLavoro: minuti,
                         secondiLavoro: secondi,
