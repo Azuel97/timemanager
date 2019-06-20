@@ -69,6 +69,23 @@ let GiornataService = {
    return taskTrovati
   },
 
+  findLastTask: function(utente,dataGiornata) {
+    // Se non è presente all'interno del DB la data cercata, allora ritorno come default il valore '000000'
+    if (!repository.objects('Giorn').filtered(" utente = '" + utente + "' && data = '" + dataGiornata + "'").length) 
+        return '';
+
+        trovaTask = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
+    let taskTrovato
+    repository.write(() => {
+      for (let p of trovaTask) {
+        count = p.task.length
+        taskTrovato = p.task[count-1]
+        console.log(taskTrovato)
+      }
+    })
+    return taskTrovato
+  },
+
   // Aggiorna nel database il valore del timer del lavoro
   updateTempoLavoro: function(utente,tempoAggiornato,dataGiornata) {
     aggiornaLavoro = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);

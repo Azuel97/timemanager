@@ -23,7 +23,8 @@ class DetailsHistory extends React.Component {
     super(props);
     
     this.state = {
-      data: []
+      data: [],
+      task: ''
     };
   }
 
@@ -48,6 +49,10 @@ class DetailsHistory extends React.Component {
     //console.log(taskTrovati)
     this.state.data = taskTrovati
     console.log(this.state.data)
+    if(taskTrovati.length == 0)
+      this.state.task = ''
+    else 
+      this.state.task = 'Lista delle attività svolte'
 
 
     // Recupero dal DB il tempo di lavoro della giornata passata dalla activity principale details
@@ -87,7 +92,7 @@ class DetailsHistory extends React.Component {
         <Text style={{position:'absolute',top:100, left:170,fontFamily:'Arial', fontSize:16}}> {ore+':'+minuti+':'+secondi} </Text>
         <Text style={{position:'absolute',top:120, left:165 ,fontFamily:'Arial', fontSize:14}}>Ore Lavoro</Text>
 
-        <Text style={{position:'absolute',top:180,fontFamily:'Arial', fontSize:16}}>Lista delle attività svolte</Text>
+        <Text style={{position:'absolute',top:180,fontFamily:'Arial', fontSize:16}}> {this.state.task} </Text>
 
         <FlatList
             style={{position:'absolute',top:200}}
