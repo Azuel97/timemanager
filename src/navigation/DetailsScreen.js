@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, Button, Alert } from 'react-native'
+// Import Icon
 import Icon from 'react-native-vector-icons/Ionicons';
 // Importo lo schema, il model ed il controller
 import Database from '../store/index'
@@ -21,10 +22,10 @@ class DetailsScreen extends React.Component {
     // Disabilito le gestures
     gesturesEnabled: false,
     headerStyle: {
-      backgroundColor: 'lightgrey'
+      backgroundColor: 'lightgrey',
     },
     headerRight:(
-      <Text style={{fontSize:18, marginRight:5}} onPress={navigation.getParam('logout')} ><Icon size={24} color="black" name="ios-log-out" />  </Text>
+      <Text style={{fontSize:18, marginRight:7}} onPress={navigation.getParam('logout')} ><Icon size={26} color="black" name="ios-log-out" />  </Text>
     ),
     headerLeft: null
   });
@@ -38,13 +39,8 @@ class DetailsScreen extends React.Component {
         this.onButtonStop()
         let utenteScelto = nomeUtente.toString()
 
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-        todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+        // Recupero la data
+        dataCompleta = this.dataAttuale()
 
         // Aggiorno il DB sul tempo di lavoro
         let sec = this.state.sec.toString()
@@ -62,13 +58,8 @@ class DetailsScreen extends React.Component {
 
         let utenteScelto = nomeUtente.toString()
 
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-        todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+        // Recupero la data
+        dataCompleta = this.dataAttuale()
 
         // Aggiorno il DB sul tempo di lavoro
         let sec = this.state.sec.toString()
@@ -315,12 +306,19 @@ constructor( props ) {
   this.startAttivita = this.startAttivita.bind(this);
   this.onButtonStopA = this.onButtonStopA.bind(this);
   this.goToCalendar = this.goToCalendar.bind(this);
+  this.dataAttuale = this.dataAttuale.bind(this);
 }
 
-// Al login effettuato perte il timer del turno di lavoro
-//   componentDidMount() {
-//     this.start();
-// }
+dataAttuale(){
+  // Recupero la data attuale e la formatto
+  var today = new Date();
+  todayDay = today.getDate();
+  todayMonth = today.getMonth() + 1;
+  todayMo = todayMonth.toString();
+  todayYear = today.getFullYear().toString()
+  dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+  return dataCompleta
+}
 
   // Scegliere start o stop del timer turno
   startTurno(){
@@ -336,34 +334,29 @@ constructor( props ) {
     this.state.abilitaStopAttivita = true
 
     this.onButtonStop();
-        this.onButtonStopA();
-        this.state.attivita = 'Inizia Attività'
-        this.state.turno = 'Inizio Turno';
-        let utenteScelto = nomeUtente.toString()
+    this.onButtonStopA();
+    this.state.attivita = 'Inizia Attività'
+    this.state.turno = 'Inizio Turno';
+    let utenteScelto = nomeUtente.toString()
 
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-        todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+    // Recupero la data
+    dataCompleta = this.dataAttuale()
 
-        // Aggiorno il DB sul tempo di lavoro
-        let sec = this.state.sec.toString()
-        let min = this.state.minuts.toString()
-        let hou = this.state.hours.toString()
-        let tempo = (hou+min+sec)
-        GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
+    // Aggiorno il DB sul tempo di lavoro
+    let sec = this.state.sec.toString()
+    let min = this.state.minuts.toString()
+    let hou = this.state.hours.toString()
+    let tempo = (hou+min+sec)
+    GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
 
-        // Aggiorno il DB sul tempo della attività
-        let secA = this.state.secA.toString()
-        let minA = this.state.minutsA.toString()
-        let houA = this.state.hoursA.toString()
-        // let tempoA = parseInt(houA+minA+secA)
-        let tempoA = (houA+minA+secA)
-        GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
-        console.log(dataCompleta)
+    // Aggiorno il DB sul tempo della attività
+    let secA = this.state.secA.toString()
+    let minA = this.state.minutsA.toString()
+    let houA = this.state.hoursA.toString()
+    // let tempoA = parseInt(houA+minA+secA)
+    let tempoA = (houA+minA+secA)
+    GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
+    console.log(dataCompleta)
   }
 
   // Scegliere start o stop del timer attività
@@ -374,13 +367,8 @@ constructor( props ) {
         // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
         // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
         let utenteScelto = nomeUtente.toString()
-        // Recupero la data attuale e la formatto
-        var today = new Date();
-        todayDay = today.getDate();
-        todayMonth = today.getMonth() + 1;
-        todayMo = todayMonth.toString();
-        todayYear = today.getFullYear().toString()
-        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+        // Recupero la data
+        dataCompleta = this.dataAttuale()
         // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
         taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
         console.log(taskSalvato)
@@ -404,13 +392,8 @@ constructor( props ) {
             // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
             // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
             let utenteScelto = nomeUtente.toString()
-            // Recupero la data attuale e la formatto
-            var today = new Date();
-            todayDay = today.getDate();
-            todayMonth = today.getMonth() + 1;
-            todayMo = todayMonth.toString();
-            todayYear = today.getFullYear().toString()
-            dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+            // Recupero la data
+            dataCompleta = this.dataAttuale()
             // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
             taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
 
@@ -430,23 +413,23 @@ constructor( props ) {
     this.state.abilitaStopAttivita = true
 
     this.onButtonStopA();
-            this.state.attivita = 'Inizia Attività';
-            let utenteScelto = nomeUtente.toString()
+    this.state.attivita = 'Inizia Attività';
+    let utenteScelto = nomeUtente.toString()
 
-            // Recupero la data attuale e la formatto
-            var today = new Date();
-            todayDay = today.getDate();
-            todayMonth = today.getMonth() + 1;
-            todayMo = todayMonth.toString();
-            todayYear = today.getFullYear().toString()
-            dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
+        // Recupero la data attuale e la formatto
+        var today = new Date();
+        todayDay = today.getDate();
+        todayMonth = today.getMonth() + 1;
+        todayMo = todayMonth.toString();
+         todayYear = today.getFullYear().toString()
+        dataCompleta = (todayDay+'/'+todayMo+'/'+todayYear).toString()
 
-            // Aggiorno il DB sul tempo della attività
-            let sec = this.state.secA.toString()
-            let min = this.state.minutsA.toString()
-            let hou = this.state.hoursA.toString()
-            let tempo = (hou+min+sec)
-            GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
+        // Aggiorno il DB sul tempo della attività
+        let sec = this.state.secA.toString()
+        let min = this.state.minutsA.toString()
+        let hou = this.state.hoursA.toString()
+        let tempo = (hou+min+sec)
+        GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
   }
 
     // Mettere in pausa il timer del turno
@@ -466,33 +449,33 @@ constructor( props ) {
         var self = this;
         let timer = setInterval(() => {
 
-            var num = (Number(this.state.miliseconds) + 1).toString(),
-                count = this.state.sec,
-                minut = this.state.minuts;
-                hour = this.state.hours;
-            
-            // Secondi
-            if( Number(this.state.miliseconds) == 59 ) {
-                count = (Number(this.state.sec) + 1).toString();
-                num = '00';
-            }
-            // Minuti
-            if(Number(this.state.sec)==59){
+        var num = (Number(this.state.miliseconds) + 1).toString(),
+        count = this.state.sec,
+        minut = this.state.minuts;
+        hour = this.state.hours;
+        
+        // Secondi
+        if( Number(this.state.miliseconds) == 59 ) {
+            count = (Number(this.state.sec) + 1).toString();
+            num = '00';
+        }
+        // Minuti
+        if(Number(this.state.sec)==59){
             minut = (Number(this.state.minuts)+1).toString();
             count = '00';
-            }
-            // Ore
-            if(Number(this.state.minuts)==59){
+        }
+        // Ore
+        if(Number(this.state.minuts)==59){
             hour = (Number(this.state.hours)+1).toString();
             minut = '00';
-            }
+        }
             
-            self.setState({
-                sec: count.length == 1 ? '0'+count : count,
-                miliseconds: num.length == 1 ? '0'+num : num,
-                minuts : minut.length == 1 ? '0'+minut: minut,
-                hours : hour.length == 1 ? '0'+hour: hour,
-            });
+        self.setState({
+            sec: count.length == 1 ? '0'+count : count,
+            miliseconds: num.length == 1 ? '0'+num : num,
+            minuts : minut.length == 1 ? '0'+minut: minut,
+            hours : hour.length == 1 ? '0'+hour: hour,
+        });
         }, 0);
         this.setState({timer});
     }
@@ -502,33 +485,33 @@ constructor( props ) {
         var self = this;
         let timerA = setInterval(() => {
 
-            var num = (Number(this.state.milisecondsA) + 1).toString(),
-                count = this.state.secA,
-                minut = this.state.minutsA;
-                hour = this.state.hoursA;
-            
-            // Secondi
-            if( Number(this.state.milisecondsA) == 59 ) {
-                count = (Number(this.state.secA) + 1).toString();
-                num = '00';
-            }
-            // Minuti
-            if(Number(this.state.secA)==59){
+        var num = (Number(this.state.milisecondsA) + 1).toString(),
+        count = this.state.secA,
+        minut = this.state.minutsA;
+        hour = this.state.hoursA;
+        
+        // Secondi
+        if( Number(this.state.milisecondsA) == 59 ) {
+            count = (Number(this.state.secA) + 1).toString();
+            num = '00';
+        }
+        // Minuti
+        if(Number(this.state.secA)==59){
             minut = (Number(this.state.minutsA)+1).toString();
             count = '00';
-            }
-            // Ore
-            if(Number(this.state.minutsA)==59){
+        }
+        // Ore
+        if(Number(this.state.minutsA)==59){
             hour = (Number(this.state.hoursA)+1).toString();
             minut = '00';
-            }
+        }
             
-            self.setState({
-                secA: count.length == 1 ? '0'+count : count,
-                milisecondsA: num.length == 1 ? '0'+num : num,
-                minutsA: minut.length == 1 ? '0'+minut: minut,
-                hoursA : hour.length == 1 ? '0'+hour: hour,
-            });
+        self.setState({
+            secA: count.length == 1 ? '0'+count : count,
+            milisecondsA: num.length == 1 ? '0'+num : num,
+            minutsA: minut.length == 1 ? '0'+minut: minut,
+            hoursA : hour.length == 1 ? '0'+hour: hour,
+        });
         }, 0);
         this.setState({timerA});
     }
@@ -594,10 +577,6 @@ constructor( props ) {
     const { navigation } = this.props;
     mioTask = navigation.getParam('myTask', '');
 
-    // // Recupero la data attuale
-    // var today = new Date();
-    // date = today.getDate();
-
     return (
       <View style={{
             alignItems: "center",
@@ -658,22 +637,22 @@ constructor( props ) {
 
         <Text style={{position:'absolute',top:400,fontFamily:'Arial', fontSize:18}}>Attività</Text>
         <TouchableOpacity disabled={this.state.abilitaStartAttivita} style={this.state.abilitaStartAttivita === false ? styles.nuovaAttivita : styles.nuovaAttivitaDisabilitata } onPress={() => this.startAttivita()}>
-           <Text style = {styles.submitButtonText}> Inizia Attività </Text>
+           <Text style = {styles.submitButtonText}> Inizia  </Text>
         </TouchableOpacity>
 
         <TouchableOpacity disabled={this.state.abilitaStopAttivita} style={this.state.abilitaStopAttivita === false ? styles.pausaAttivita : styles.pausaAttivitaDisabilitata } onPress={() => this.stopAttivita()}>
-           <Text style = {styles.submitButtonText}> Pausa Attività </Text>
+           <Text style = {styles.submitButtonText}> Pausa  </Text>
         </TouchableOpacity>
 
         {/* -------------------------------------------------------------------- */}
 
         <Text style={{position:'absolute',top:520,fontFamily:'Arial', fontSize:18}}>Turno</Text>
         <TouchableOpacity disabled={this.state.abilitaStartTurno} style={this.state.abilitaStartTurno === false ? styles.nuovoTurno : styles.nuovoTurnoDisabilita } onPress={() => this.startTurno()}>
-           <Text style = {styles.submitButtonText}> Inizia Turno </Text>
+           <Text style = {styles.submitButtonText}> Inizia  </Text>
         </TouchableOpacity>
 
         <TouchableOpacity disabled={this.state.abilitaStopTurno} style={this.state.abilitaStopTurno === false ? styles.pausaTurno : styles.pausaTurnoDisabilita } onPress={() => this.stopTurno()}>
-           <Text style = {styles.submitButtonText}> Pausa Turno </Text>
+           <Text style = {styles.submitButtonText}> Fine  </Text>
         </TouchableOpacity>
         
       </View>

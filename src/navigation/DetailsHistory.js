@@ -50,7 +50,7 @@ class DetailsHistory extends React.Component {
     this.state.data = taskTrovati
     console.log(this.state.data)
     if(taskTrovati.length == 0)
-      this.state.task = ''
+      this.state.task = 'Non hai lavorato'
     else 
       this.state.task = 'Lista delle attività svolte'
 

@@ -74,7 +74,7 @@ let GiornataService = {
     if (!repository.objects('Giorn').filtered(" utente = '" + utente + "' && data = '" + dataGiornata + "'").length) 
         return '';
 
-        trovaTask = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
+    trovaTask = repository.objects('Giorn').filtered('utente == $0 && data == $1',utente,dataGiornata);
     let taskTrovato
     repository.write(() => {
       for (let p of trovaTask) {
