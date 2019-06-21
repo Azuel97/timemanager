@@ -618,7 +618,7 @@ class DetailsScreen extends React.Component {
         <Text style={{position:'absolute',top:100, left:170,fontFamily:'Arial', fontSize:16}}>{this.state.hours}:{this.state.minuts}:{this.state.sec}</Text>
         <Text style={{position:'absolute',top:120, left:165 ,fontFamily:'Arial', fontSize:14}}>Ore Lavoro</Text>
 
-        <Text style={{position:'absolute',top:150,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
+        <Text style={{position:'absolute',top:170,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
         
         <View style={[(this.state.coloreSettimana6 === 'verde') ? styles.CircleShapeView1OK : (this.state.coloreSettimana6 === 'rosso') ? styles.CircleShapeView1ERRORE : styles.CircleShapeView1VUOTO]}>
           <Text onPress = {() => this.goToHistory6()} >{date-6}</Text>
@@ -642,8 +642,8 @@ class DetailsScreen extends React.Component {
           <Text onPress = {() => this.goToHistory()} >{date}</Text>
         </View>
 
-        <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
-        <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text>
+        {/* <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
+        <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text> */}
 
          {/* -------------------------------------------------------------------- */}
 
@@ -812,7 +812,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:175,
+     top:200,
    },
    CircleShapeView1ERRORE: {
     width: 30,
@@ -822,7 +822,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
   },
   CircleShapeView1VUOTO: {
     width: 30,
@@ -832,7 +832,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
   },
    CircleShapeView2OK: {
      width: 30,
@@ -842,7 +842,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:175,
+     top:200,
      marginLeft:40
    },
    CircleShapeView2ERRORE: {
@@ -853,7 +853,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft:40
   },
   CircleShapeView2VUOTO: {
@@ -864,7 +864,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft:40
   },
    CircleShapeView3OK: {
@@ -875,7 +875,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:175,
+     top:200,
      marginLeft:80
    },
    CircleShapeView3ERROE: {
@@ -886,7 +886,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft:80
   },
   CircleShapeView3VUOTO: {
@@ -897,7 +897,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft: 80
   },
    CircleShapeView4OK: {
@@ -908,7 +908,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:175,
+     top:200,
      marginLeft:120,
    },
    CircleShapeView4ERRORE: {
@@ -919,7 +919,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft:120,
   },
   CircleShapeView4VUOTO: {
@@ -930,7 +930,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft: 120
   },
    CircleShapeView5OK: {
@@ -941,7 +941,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:175,
+     top:200,
      marginLeft:160,
      },
      CircleShapeView5ERRORE: {
@@ -952,7 +952,7 @@ export default DetailsScreen;
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      top:175,
+      top:200,
       marginLeft:160,
       },
       CircleShapeView5VUOTO: {
@@ -963,7 +963,7 @@ export default DetailsScreen;
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        top:175,
+        top:200,
         marginLeft: 160
       },
      CircleShapeView6OK: {
@@ -974,7 +974,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:175,
+     top:200,
      marginLeft:200
      },
      CircleShapeView6ERRORE: {
@@ -985,7 +985,7 @@ export default DetailsScreen;
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      top:175,
+      top:200,
       marginLeft:200
       },
       CircleShapeView6VUOTO: {
@@ -996,7 +996,7 @@ export default DetailsScreen;
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        top:175,
+        top:200,
         marginLeft: 200
       }, 
      CircleShapeView7OK: {
@@ -1007,7 +1007,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:175,
+     top:200,
      marginLeft:240,
      borderWidth:2,
      borderColor: 'black'
@@ -1020,7 +1020,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft:240,
     borderWidth:2,
     borderColor: 'black'
@@ -1033,7 +1033,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:175,
+    top:200,
     marginLeft:240,
     borderWidth:2,
     borderColor: 'black'
