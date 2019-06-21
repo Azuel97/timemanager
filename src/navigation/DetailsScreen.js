@@ -12,6 +12,7 @@ var today = new Date();
 date = today.getDate();
 
 var mioTask
+var taskSalvato
 
 class DetailsScreen extends React.Component {
 
@@ -52,7 +53,7 @@ class DetailsScreen extends React.Component {
   }
 
   tempoTurno() {
-    // Aggiorno il DB sul tempo di lavoro
+    // Recupero i valori del timer del turno
     let sec = this.state.sec.toString()
     let min = this.state.minuts.toString()
     let hou = this.state.hours.toString()
@@ -61,7 +62,7 @@ class DetailsScreen extends React.Component {
   }
 
   tempoA() {
-    // Aggiorno il DB sul tempo di lavoro
+    // Recupero i valori del timer delle attività
     let secA = this.state.secA.toString()
     let minA = this.state.minutsA.toString()
     let houA = this.state.hoursA.toString()
@@ -102,7 +103,7 @@ class DetailsScreen extends React.Component {
         GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
 
         // Aggiorno il DB sul tempo della attività
-        tempo = this.tempoA()
+        tempoA = this.tempoA()
         GiornataService.updateTempoAttivita(utenteScelto,tempoA,dataCompleta)
 
         this.props.navigation.navigate('Home')
@@ -369,8 +370,9 @@ class DetailsScreen extends React.Component {
         let utenteScelto = nomeUtente.toString()
         // Recupero la data
         dataCompleta = this.dataAttuale()
+        tempo = this.tempoA()
         // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
-        taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+        taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask,tempo)
         console.log(taskSalvato)
 
         if(taskSalvato === true){
@@ -389,13 +391,14 @@ class DetailsScreen extends React.Component {
 
       } else if(this.state.abilitaStartAttivita === false && this.state.abilitaStopTurno === false) {
 
-            // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
-            // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
-            let utenteScelto = nomeUtente.toString()
-            // Recupero la data
-            dataCompleta = this.dataAttuale()
-            // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
-            taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask)
+            // // Quando faccio partire il timer delle attività, recupero l'attività e vado a salvarla all'interno
+            // // del DB, in modo da poter vedere quante attività sono state svolte durante la gornata
+            // let utenteScelto = nomeUtente.toString()
+            // // Recupero la data
+            // dataCompleta = this.dataAttuale()
+            // tempo = this.tempoA()
+            // // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
+            // taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask,tempo)
 
             if(taskSalvato === true){
               Alert.alert('Attenzione','Scelta task obbligatoria')
@@ -419,9 +422,14 @@ class DetailsScreen extends React.Component {
     // Recupero la data
     dataCompleta = this.dataAttuale()
 
+    tempo = this.tempoA()
+    // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
+    taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask,tempo)
+
     // Aggiorno il DB sul tempo della attività
     tempo = this.tempoA()
     GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
+
   }
 
     // Mettere in pausa il timer del turno

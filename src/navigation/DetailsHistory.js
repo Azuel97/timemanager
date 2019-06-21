@@ -52,7 +52,7 @@ class DetailsHistory extends React.Component {
     if(taskTrovati.length == 0)
       this.state.task = 'Non hai lavorato'
     else 
-      this.state.task = 'Lista delle attività svolte'
+      this.state.task = 'Lista delle attività svolte : '
 
 
     // Recupero dal DB il tempo di lavoro della giornata passata dalla activity principale details

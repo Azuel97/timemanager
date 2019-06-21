@@ -10,13 +10,14 @@ let repository = new Realm({
             }
         },
         {
-            name: 'Giorn',
+            name: 'Gior',
             properties: {
                 utente: 'string',
                 data: 'string',
                 tempoAttivita: 'string',
                 tempoLavoro: 'string',
-                task: 'string[]'
+                task: 'string[]',
+                tranche: 'string[]'
             }
         }
     ],
