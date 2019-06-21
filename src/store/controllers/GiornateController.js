@@ -118,7 +118,6 @@ let GiornataService = {
               taskTrovati.push(p.task[i] + '  -->  ' + hou + ':' + min + ':' + sec)
             }
         }
-           //taskTrovati.push(p.task[i] + '  -->  ' + p.tranche[i])
        }
    })
    return taskTrovati
