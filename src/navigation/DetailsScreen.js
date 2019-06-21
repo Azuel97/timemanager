@@ -541,6 +541,13 @@ class DetailsScreen extends React.Component {
 
     // Gestione dello storico con passaggio al dettaglio della giornata, passando il giorno
     // N.B --> bug da risolvere quando il giorno è minore di 10
+    goToHistory() {
+      let data = date
+      this.props.navigation.navigate('History', {
+        dataGiorno: data
+      });
+    }
+
     goToHistory1() {
       let data = date-1
       this.props.navigation.navigate('History', {
@@ -632,7 +639,7 @@ class DetailsScreen extends React.Component {
           <Text onPress = {() => this.goToHistory1()} >{date-1}</Text>
         </View>
         <View style={[(this.state.coloreSettimana === 'verde') ? styles.CircleShapeView7OK : (this.state.coloreSettimana === 'rosso') ? styles.CircleShapeView7ERRORE : styles.CircleShapeView7VUOTO]}>
-          <Text>{date}</Text>
+          <Text onPress = {() => this.goToHistory()} >{date}</Text>
         </View>
 
         <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
