@@ -350,6 +350,10 @@ class DetailsScreen extends React.Component {
     // Recupero la data
     dataCompleta = this.dataAttuale()
 
+    tempo = this.tempoA()
+    // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
+    taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask,tempo)
+
     // Aggiorno il DB sul tempo di lavoro
     tempo = this.tempoTurno()
     GiornataService.updateTempoLavoro(utenteScelto,tempo,dataCompleta)
