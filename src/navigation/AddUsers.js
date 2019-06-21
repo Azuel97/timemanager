@@ -5,6 +5,8 @@ import Database from '../store/index'
 import PeopleService from '../store/controllers/UserController'
 import PeopleModel from '../store/models/UserModel'
 
+import {decode, encode} from 'base-64'
+
 let utenti = '';
 
 class AddUser extends React.Component {
@@ -44,7 +46,7 @@ class AddUser extends React.Component {
             Alert.alert('Errore','Password obbligatoria')
        else{
             // Cripto la password
-            var pwdCriptata = btoa(password);
+            var pwdCriptata = encode(password);
             // Richiamo la funzione per aggiungere un utente
             var inserimento = PeopleService.saveUser(new PeopleModel(email,pwdCriptata))
 

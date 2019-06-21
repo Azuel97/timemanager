@@ -6,6 +6,8 @@ import PeopleService from '../store/controllers/UserController'
 import PeopleModel from '../store/models/UserModel'
 import GiornataService from '../store/controllers/GiornateController'
 import GiornateModel from '../store/models/GiornateModel'
+// Use base-64
+import {decode, encode} from 'base-64'
 
 let utenteScelto;
 
@@ -41,7 +43,7 @@ class Login extends React.Component {
 
        nomeUtente = email;
        // Cripto la password
-       var pwdCriptata = btoa(password);
+       var pwdCriptata = encode(password);
        // Richiamo la funzione di ricerca su l'utente che richiede l'accesso
        utenteScelto = PeopleService.findSpecificUser(email,pwdCriptata)
 
