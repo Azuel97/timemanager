@@ -19,6 +19,15 @@ let repository = new Realm({
                 task: 'string[]',
                 tranche: 'string[]'
             }
+        },
+        {
+            name: 'Progett',
+            primaryKey : 'id',
+            properties: {
+                id: 'int',
+                name: 'string',
+                task: 'string[]'
+            }
         }
     ],
     schemaVersion: 4,

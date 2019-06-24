@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet, FlatList, Alert } from 'react-native'
+// Importo lo schema, il model ed il controller
+import Database from '../store/index'
+import ProgettiService from '../store/controllers/ProgettiController'
+import ProgettiModel from '../store/models/ProgettiModel'
+
+let progetti = ''
+let datiTro
+let progettoPassato
 
 class SearchActivity extends React.Component {
 
@@ -12,50 +20,37 @@ class SearchActivity extends React.Component {
       }
     });
 
-    // Azione sul ckick degli item della Flatlist
+    // Azione sul ckick degli item della Flatlist, ritorno alla Home
     getListViewItem = (item) => {  
-      // Passo alla activity details, passando anche come parametro aggiuntivo
-      // il titolo del task selezionato
-      this.props.navigation.navigate('Details', {
-        myTask: item.title,
-      });
-    }  
+      // Controllo il valore passato per scegliere quale parametro ritornare all activity home
+      if(datiTro === 0){
+        this.props.navigation.navigate('Details', {
+          myProject: item,
+        });
+      }else{
+        this.props.navigation.navigate('Details', {
+          myTask: item,
+        });
+      }
+    }
 
     constructor(props) {
       super(props);
-      // Settaggio di default 
-      this.state = { isLoading: true, text: '' };
-      // Array su cui salvo i dati che preleverò dal json
-      this.arrayholder = [];
+      
+      this.state = {
+        data: [],
+        task: ''
+      };
     }
-    
-    // Eseguo il fetch dei dati dopo che avviene la renderizzazione della UI
-    componentDidMount() {
-      return fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState(
-            {
-              isLoading: false,
-              dataSource: responseJson
-            },
-            function() {
-              this.arrayholder = responseJson;
-            }
-          );
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
+
 
     // Funzione di filtraggio all'interno dell'array, su cui ci sono all'interno
     // tutti i dati recuperati dalla fetch
     SearchFilterFunction(text) {
       // Passo il text all'inputtext
-      const newData = this.arrayholder.filter(function(item) {
+      const newData = this.state.data.filter(function(item) {
         // Applico il filtro
-        const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+        const itemData = item ? item.toUpperCase() : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -68,6 +63,24 @@ class SearchActivity extends React.Component {
     }
   
     render() {
+
+      // Recupero il valore di controllo
+      const { navigation } = this.props;
+      datiTro = navigation.getParam('visualizza', '');
+      // Recupero il progetto scelto
+      progettoPassato = navigation.getParam('progetto','')
+
+      // Controllo il valore passato per determinare quali dati devo recuperare
+      if(datiTro === 0){
+        progetti = ProgettiService.findAllProgetti()
+        this.state.data = progetti
+        console.log(progetti)
+      }else{
+        taskRicercati = ProgettiService.findTask(progettoPassato)
+        this.state.data = taskRicercati
+        console.log(taskRicercati)
+      }
+
       return (
         <View>
           <TextInput style = {styles.input}
@@ -85,8 +98,8 @@ class SearchActivity extends React.Component {
           
           <FlatList
             style={{position:'absolute',top:110}}
-            data={this.state.dataSource}
-            renderItem={({item}) => <Text style={styles.item} onPress={this.getListViewItem.bind(this, item)} > • {item.title}</Text>}
+            data={this.state.data}
+            renderItem={({item}) => <Text style={styles.item} onPress={this.getListViewItem.bind(this, item)} > • {item}</Text>}
             keyExtractor={(item, index) => index.toString()}
           />
   

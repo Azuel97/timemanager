@@ -1,0 +1,49 @@
+
+{
+  "user":[
+      {
+        "id": "0", 
+        "name": "Davide Cenzi", 
+        "email": "davide.cenzi@develondigital.com"
+      },
+      {
+        "id": "1", 
+        "name": "Azuel Galiotto", 
+        "email": "azuel.galiotto@develondigital.com"
+    }
+  ],
+
+  "task":[
+      {
+        "assignee_id": "1",
+        "due_date": "2019-01-29T17:06:16.423Z",
+        "project_id": "928999595598027",
+        "description": "my task description",
+        "id": "0"
+      },
+      {
+        "assignee_id": "0",
+        "due_date": "2019-01-29T17:06:16.423Z",
+        "project_id": "928999595438027",
+        "description": "my task description",
+        "id": "1"
+      }
+  ],
+
+  "timer":[
+      {
+        "task_id": "0",
+        "assignee_id": "1",
+        "working_date": "2019-01-29T17:06:16.423Z",
+        "id": "0",
+        "working_time": 900000
+      },
+      {
+        "task_id": "1",
+        "assignee_id": "0",
+        "working_date": "2019-01-29T17:06:16.423Z",
+        "id": "1",
+        "working_time": 900000
+      }
+  ]
+}

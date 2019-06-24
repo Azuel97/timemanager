@@ -13,6 +13,7 @@ date = today.getDate();
 
 var mioTask
 var taskSalvato
+var mioProgetto
 
 class DetailsScreen extends React.Component {
 
@@ -39,6 +40,7 @@ class DetailsScreen extends React.Component {
     this.startAttivita = this.startAttivita.bind(this);
     this.onButtonStopA = this.onButtonStopA.bind(this);
     this.goToCalendar = this.goToCalendar.bind(this);
+    this.goToProgetti = this.goToProgetti.bind(this);
   }
 
   dataAttuale(){
@@ -533,9 +535,26 @@ class DetailsScreen extends React.Component {
         this.props.navigation.navigate('Calendar');
     }
 
-    // Vai ai Task
+    // Vai nella activity Task
     goToTask() {
-        this.props.navigation.navigate('Search');
+        // Se non ho selezionato nessun progetto, faccio mostrare un alert
+        if(mioProgetto === ""){
+          alert('Selezionare un progetto')
+        }else{
+        let task = 1
+        this.props.navigation.navigate('Search', {
+          visualizza: task,
+          progetto: mioProgetto
+        });
+      }
+    }
+
+    // Vai nella activity Progetti
+    goToProgetti() {
+      let task = 0
+      this.props.navigation.navigate('Search', {
+        visualizza: task
+      });
     }
 
 
@@ -595,6 +614,7 @@ class DetailsScreen extends React.Component {
     // Recupero del parametro passato dalla activity Search
     const { navigation } = this.props;
     mioTask = navigation.getParam('myTask', '');
+    mioProgetto = navigation.getParam('myProject', '');
 
     return (
       <View style={{
@@ -618,7 +638,7 @@ class DetailsScreen extends React.Component {
         <Text style={{position:'absolute',top:100, left:170,fontFamily:'Arial', fontSize:16}}>{this.state.hours}:{this.state.minuts}:{this.state.sec}</Text>
         <Text style={{position:'absolute',top:120, left:165 ,fontFamily:'Arial', fontSize:14}}>Ore Lavoro</Text>
 
-        <Text style={{position:'absolute',top:170,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
+        <Text style={{position:'absolute',top:155,fontFamily:'Arial', fontSize:14}}>Ultima settimana</Text>
         
         <View style={[(this.state.coloreSettimana6 === 'verde') ? styles.CircleShapeView1OK : (this.state.coloreSettimana6 === 'rosso') ? styles.CircleShapeView1ERRORE : styles.CircleShapeView1VUOTO]}>
           <Text onPress = {() => this.goToHistory6()} >{date-6}</Text>
@@ -645,16 +665,22 @@ class DetailsScreen extends React.Component {
         {/* <Text style={{position:'absolute',top:230,fontFamily:'Arial', fontSize:14,color:'red'}}>Vedi calendario completo</Text>
         <Text style={{position:'absolute',top:228,left:170,fontFamily:'Arial', fontSize:16,color:'red'}} onPress={() => this.goToCalendar()}>Vai</Text> */}
 
+
+        <Text style={{position:'absolute',top:240,fontFamily:'Arial', fontSize:18}}>Progetti - {mioProgetto}</Text>
+        <TouchableOpacity style={styles.buttonProgetti} onPress={() => this.goToProgetti()}>
+           <Text style = {styles.submitButtonText}> Visualizza Progetti </Text>
+        </TouchableOpacity>
+
          {/* -------------------------------------------------------------------- */}
 
-        <Text style={{position:'absolute',top:285,fontFamily:'Arial', fontSize:18}}>Task - {mioTask} </Text>
+        <Text style={{position:'absolute',top:350,fontFamily:'Arial', fontSize:18}}>Task - {mioTask} </Text>
         <TouchableOpacity style={styles.buttonTask} onPress={() => this.goToTask()}>
            <Text style = {styles.submitButtonText}> Visualizza Task </Text>
         </TouchableOpacity>
 
          {/* -------------------------------------------------------------------- */}
 
-        <Text style={{position:'absolute',top:400,fontFamily:'Arial', fontSize:18}}>Attività</Text>
+        <Text style={{position:'absolute',top:460,fontFamily:'Arial', fontSize:18}}>Attività</Text>
         <TouchableOpacity disabled={this.state.abilitaStartAttivita} style={this.state.abilitaStartAttivita === false ? styles.nuovaAttivita : styles.nuovaAttivitaDisabilitata } onPress={() => this.startAttivita()}>
            <Text style = {styles.submitButtonText}> Inizia  </Text>
         </TouchableOpacity>
@@ -665,7 +691,7 @@ class DetailsScreen extends React.Component {
 
         {/* -------------------------------------------------------------------- */}
 
-        <Text style={{position:'absolute',top:520,fontFamily:'Arial', fontSize:18}}>Turno</Text>
+        <Text style={{position:'absolute',top:570,fontFamily:'Arial', fontSize:18}}>Turno</Text>
         <TouchableOpacity disabled={this.state.abilitaStartTurno} style={this.state.abilitaStartTurno === false ? styles.nuovoTurno : styles.nuovoTurnoDisabilita } onPress={() => this.startTurno()}>
            <Text style = {styles.submitButtonText}> Inizia  </Text>
         </TouchableOpacity>
@@ -702,7 +728,7 @@ export default DetailsScreen;
      width:130,
      alignItems: 'center',
      position:'absolute',
-     top:430,
+     top:490,
      borderRadius:8
     },
     nuovaAttivitaDisabilitata:{
@@ -714,7 +740,7 @@ export default DetailsScreen;
       width:130,
       alignItems: 'center',
       position:'absolute',
-      top:430,
+      top:490,
       borderRadius:8
      },
     pausaAttivita:{
@@ -726,7 +752,7 @@ export default DetailsScreen;
       width:130,
       alignItems: 'center',
       position:'absolute',
-      top:430,
+      top:490,
       borderRadius:8,
       left: 170
      },
@@ -739,7 +765,7 @@ export default DetailsScreen;
       width:130,
       alignItems: 'center',
       position:'absolute',
-      top:430,
+      top:490,
       borderRadius:8,
       left: 170
      },
@@ -752,7 +778,7 @@ export default DetailsScreen;
      width:130,
      alignItems: 'center',
      position:'absolute',
-     top:550,
+     top:600,
      borderRadius:8
     },
     nuovoTurnoDisabilita: {
@@ -764,7 +790,7 @@ export default DetailsScreen;
       width:130,
       alignItems: 'center',
       position:'absolute',
-      top:550,
+      top:600,
       borderRadius:8
      },
     pausaTurno: {
@@ -776,7 +802,7 @@ export default DetailsScreen;
       width:130,
       alignItems: 'center',
       position:'absolute',
-      top:550,
+      top:600,
       borderRadius:8,
       left: 170
      },
@@ -789,7 +815,7 @@ export default DetailsScreen;
       width:130,
       alignItems: 'center',
       position:'absolute',
-      top:550,
+      top:600,
       borderRadius:8,
       left: 170
      },
@@ -801,7 +827,18 @@ export default DetailsScreen;
       width:300,
       alignItems: 'center',
       position:'absolute',
-      top:315,
+      top:380,
+      borderRadius:8
+    },
+    buttonProgetti: {
+      backgroundColor: 'grey',
+      padding: 25,
+      margin: 0,
+      height: 70,
+      width:300,
+      alignItems: 'center',
+      position:'absolute',
+      top:270,
       borderRadius:8
     },
    CircleShapeView1OK: {
@@ -812,7 +849,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:200,
+     top:183,
    },
    CircleShapeView1ERRORE: {
     width: 30,
@@ -822,7 +859,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
   },
   CircleShapeView1VUOTO: {
     width: 30,
@@ -832,7 +869,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
   },
    CircleShapeView2OK: {
      width: 30,
@@ -842,7 +879,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:200,
+     top:183,
      marginLeft:40
    },
    CircleShapeView2ERRORE: {
@@ -853,7 +890,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft:40
   },
   CircleShapeView2VUOTO: {
@@ -864,7 +901,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft:40
   },
    CircleShapeView3OK: {
@@ -875,7 +912,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:200,
+     top:183,
      marginLeft:80
    },
    CircleShapeView3ERROE: {
@@ -886,7 +923,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft:80
   },
   CircleShapeView3VUOTO: {
@@ -897,7 +934,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft: 80
   },
    CircleShapeView4OK: {
@@ -908,7 +945,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:200,
+     top:183,
      marginLeft:120,
    },
    CircleShapeView4ERRORE: {
@@ -919,7 +956,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft:120,
   },
   CircleShapeView4VUOTO: {
@@ -930,7 +967,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft: 120
   },
    CircleShapeView5OK: {
@@ -941,7 +978,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:200,
+     top:183,
      marginLeft:160,
      },
      CircleShapeView5ERRORE: {
@@ -952,7 +989,7 @@ export default DetailsScreen;
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      top:200,
+      top:183,
       marginLeft:160,
       },
       CircleShapeView5VUOTO: {
@@ -963,7 +1000,7 @@ export default DetailsScreen;
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        top:200,
+        top:183,
         marginLeft: 160
       },
      CircleShapeView6OK: {
@@ -974,7 +1011,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:200,
+     top:183,
      marginLeft:200
      },
      CircleShapeView6ERRORE: {
@@ -985,7 +1022,7 @@ export default DetailsScreen;
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      top:200,
+      top:183,
       marginLeft:200
       },
       CircleShapeView6VUOTO: {
@@ -996,7 +1033,7 @@ export default DetailsScreen;
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        top:200,
+        top:183,
         marginLeft: 200
       }, 
      CircleShapeView7OK: {
@@ -1007,7 +1044,7 @@ export default DetailsScreen;
      justifyContent: 'center',
      alignItems: 'center',
      position: 'absolute',
-     top:200,
+     top:183,
      marginLeft:240,
      borderWidth:2,
      borderColor: 'black'
@@ -1020,7 +1057,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft:240,
     borderWidth:2,
     borderColor: 'black'
@@ -1033,7 +1070,7 @@ export default DetailsScreen;
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top:200,
+    top:183,
     marginLeft:240,
     borderWidth:2,
     borderColor: 'black'
