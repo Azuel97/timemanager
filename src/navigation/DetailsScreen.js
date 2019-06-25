@@ -234,17 +234,21 @@ class DetailsScreen extends React.Component {
     // decidere che colore assegnarli in base al risultato ottenuto, ovvero :
     // - rosso (diff > 1h)  - verde (diff < 1h)  - grigio (non esite la giornata all'interno del DB, no lavoro)
     if(cercoGiornata == true){
-      if(diffTempo > 10000){
+      if(tempoLavoro < 80000){
+        this.state.coloreSettimana = 'rosso'
+      }else if(diffTempo > 10000){
         this.state.coloreSettimana = 'rosso'
       }else if(diffTempo <= 10000){  
         this.state.coloreSettimana = 'verde'
-      }  
+      } 
     }else{
         this.state.coloreSettimana = 'grigio'  
     }
 
     if(cercoGiornata1 == true){
-      if(diffTempo1 > 10000){
+      if(tempoLavoro1 < 80000){
+        this.state.coloreSettimana1 = 'rosso'
+      }else if(diffTempo1 > 10000){
         this.state.coloreSettimana1 = 'rosso'
       }else if(diffTempo1 <= 10000){  
         this.state.coloreSettimana1 = 'verde'
@@ -254,7 +258,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata2 == true){
-      if(diffTempo2 > 10000){
+      if(tempoLavoro2 < 80000){
+        this.state.coloreSettimana2 = 'rosso'
+      }else if(diffTempo2 > 10000){
         this.state.coloreSettimana2 = 'rosso'
       }else if(diffTempo2 <= 10000){  
         this.state.coloreSettimana2 = 'verde'
@@ -264,7 +270,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata3 == true){
-      if(diffTempo3 > 10000){
+      if(tempoLavoro3 < 80000){
+        this.state.coloreSettimana3 = 'rosso'
+      }else if(diffTempo3 > 10000){
         this.state.coloreSettimana3 = 'rosso'
       }else if(diffTempo3 <= 10000){  
         this.state.coloreSettimana3 = 'verde'
@@ -274,7 +282,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata4 == true){
-      if(diffTempo4 > 10000){
+      if(tempoLavoro4 < 80000){
+        this.state.coloreSettimana4 = 'rosso'
+      }else if(diffTempo4 > 10000){
         this.state.coloreSettimana4 = 'rosso'
       }else if(diffTempo4 <= 10000){  
         this.state.coloreSettimana4 = 'verde'
@@ -284,7 +294,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata5 == true){
-      if(diffTempo5 > 10000){
+      if(tempoLavoro5 < 80000){
+        this.state.coloreSettimana5 = 'rosso'
+      }else if(diffTempo5 > 10000){
         this.state.coloreSettimana5 = 'rosso'
       }else if(diffTempo5 <= 10000){  
         this.state.coloreSettimana5 = 'verde'
@@ -294,7 +306,9 @@ class DetailsScreen extends React.Component {
     }
 
     if(cercoGiornata6 == true){
-      if(diffTempo6 > 10000){
+      if(tempoLavoro6 < 80000){
+        this.state.coloreSettimana6 = 'rosso'
+      }else if(diffTempo6 > 10000){
         this.state.coloreSettimana6 = 'rosso'
       }else if(diffTempo6 <= 10000){  
         this.state.coloreSettimana6 = 'verde'
