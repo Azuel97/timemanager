@@ -8,6 +8,7 @@ import PeopleModel from '../store/models/UserModel'
 import {decode, encode} from 'base-64'
 
 let utenti = '';
+let count = 0
 
 class AddUser extends React.Component {
 
@@ -15,7 +16,8 @@ class AddUser extends React.Component {
     // state in the constructor, and then call setState when you want to change it.
     state = {
         email: '',
-        password: ''
+        password: '',
+        nome: ''
      }
  
     // Modifica la navigationBar
@@ -27,7 +29,7 @@ class AddUser extends React.Component {
      }
    });
 
-   // Recupero dall'inserimento il nome/email
+   // Recupero dall'inserimento della email
    handleEmail = (text) => {
     this.setState({ email: text })
    } 
@@ -35,10 +37,30 @@ class AddUser extends React.Component {
    // Recupero dall'inserimento la password
    handlePassword = (text) => {
     this.setState({ password: text })
- }
+   }
+
+   // Recupero dall'inserimento del nome
+   handleNome = (text) => {
+    this.setState({ nome: text })
+   }
+
+   componentDidMount() {
+        // Eseguo la GET per recuperrare la lunghezza dell'oggetto e dunque definire successivamente 
+        // il valore che avrà l'id del prossimo utente inserito
+        return fetch('http://localhost:3031/user')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            //console.log(responseJson[0].name);
+            console.log(responseJson.length);
+            count = responseJson.length
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+   }
 
    // Mi collego al Db ed aggiungo un utente al DB e torno nella pagina di Login
-   toLogin(email,password){
+   toLogin(email,password,nome){
     
        if(email === "")
             Alert.alert('Errore','Nome obbligatorio')
@@ -50,17 +72,31 @@ class AddUser extends React.Component {
             // Richiamo la funzione per aggiungere un utente
             var inserimento = PeopleService.saveUser(new PeopleModel(email,pwdCriptata))
 
+            // POST -> vado a salvare il nuovo utente
+            fetch('http://localhost:3031/user', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify({
+                    id: count.toString(),
+                    name: nome,
+                    email: email,
+                    password: password
+                }),
+            })
+            .then((response) => console.log('fetchResponse', response))
+            .catch((error) => {
+                console.error('fetchError', error);
+            });
+
             if(inserimento == true)
                 // Torna alla activity home
                 this.props.navigation.navigate('Home')
             else
                 Alert.alert('Errore','Nome utente già esistente')
        }
-   }
-
-   componentDidMount() {
-     // Richiamo la funzione find() per recuperare tutti gli utenti all'interno della lista
-     utenti = PeopleService.findAllUser();
    }
  
     render() {
@@ -73,9 +109,16 @@ class AddUser extends React.Component {
                 placeholder = "Name"
                 placeholderTextColor = "#434A53"
                 autoCapitalize = "none"
+                onChangeText = {this.handleNome}/>
+
+            <TextInput style = {styles.input}
+                underlineColorAndroid = "transparent"
+                placeholder = "Email"
+                placeholderTextColor = "#434A53"
+                autoCapitalize = "none"
                 onChangeText = {this.handleEmail}/>
 
-<           TextInput style = {styles.input}
+            <TextInput style = {styles.input}
                 underlineColorAndroid = "transparent"
                 placeholder = "Password"
                 placeholderTextColor = "#434A53"
@@ -85,16 +128,9 @@ class AddUser extends React.Component {
 
             <TouchableOpacity
                 style = {styles.submitButton}
-                onPress = {() => this.toLogin(this.state.email, this.state.password)}>
+                onPress = {() => this.toLogin(this.state.email, this.state.password, this.state.nome)}>
                 <Text style = {styles.submitButtonText}> Register </Text>
              </TouchableOpacity>
-
-             {/* <FlatList
-                style={{position:'absolute',top:310,left:150}}
-                data={utenti}
-                renderItem={({item}) => <Text style={styles.item}> • {item.name}</Text>}
-                keyExtractor={(item, index) => index.toString()}
-             /> */}
 
           </View>
        )
