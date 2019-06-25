@@ -33,6 +33,18 @@ class Login extends React.Component {
     // Vado a gestire e controllore l'inserimento delle credenziali dell'utenteßß
     login = (email, password) => {
 
+        
+        //  // Prova FETCH di dati
+        //  return fetch('http://localhost:3031/user?email='+email)
+        //  .then((response) => response.json())
+        //  .then((responseJson) => {
+        //     console.log(responseJson[0].name);
+        //  })
+        //  .catch((error) => {
+        //     console.error(error);
+        //  });
+
+
         // Controllo l'inserimento delle credenziali degli utenti
         if((email === "") && (password === ""))
             Alert.alert('Attenzione','Inserire nome e password')
@@ -98,6 +110,7 @@ class Login extends React.Component {
                     console.log(ore+':'+minuti+':'+secondi)
 
                     taskTrovato = GiornataService.findLastTask(utenteScelto,dataCompleta)
+                    console.log(taskTrovato)
 
                     // Passo alla activity principale 'Details' i valori dei timer che sono stati salvati
                     // sul db, in modo da recuperre dove erano rimasti prima di effettuare il logout

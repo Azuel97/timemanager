@@ -134,7 +134,7 @@ let GiornataService = {
       for (let p of trovaTask) {
         count = p.task.length
         taskTrovato = p.task[count - 1]
-        console.log(taskTrovato)
+        //  console.log(taskTrovato)
       }
     })
     return taskTrovato
