@@ -21,16 +21,17 @@ let repository = new Realm({
             }
         },
         {
-            name: 'Progett',
+            name: 'Proget',
             primaryKey : 'id',
             properties: {
                 id: 'int',
                 name: 'string',
-                task: 'string[]'
+                task: 'string[]',
+                timer: 'string'
             }
         }
     ],
-    schemaVersion: 4,
+    schemaVersion: 5,
 });
  
 let Database = {

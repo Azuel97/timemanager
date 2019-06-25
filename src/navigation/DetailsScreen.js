@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Database from '../store/index'
 import GiornataService from '../store/controllers/GiornateController'
 import GiornateModel from '../store/models/GiornateModel'
+import ProgettiService from '../store/controllers/ProgettiController'
+import ProgettiModel from '../store/models/ProgettiModel'
 
 // Recupero la data attuale
 var today = new Date();
@@ -440,6 +442,12 @@ class DetailsScreen extends React.Component {
     // Richiamo il metodo per il salvataggio della attivitò all'interno del DB
     taskSalvato = GiornataService.saveTask(utenteScelto,dataCompleta,mioTask,tempo)
 
+
+
+    //timerSalvato = ProgettiService.saveTimerProgetto(mioProgetto,tempo)
+
+
+
     // Aggiorno il DB sul tempo della attività
     tempo = this.tempoA()
     GiornataService.updateTempoAttivita(utenteScelto,tempo,dataCompleta)
@@ -539,7 +547,7 @@ class DetailsScreen extends React.Component {
     goToTask() {
         // Se non ho selezionato nessun progetto, faccio mostrare un alert
         if(mioProgetto === ""){
-          alert('Selezionare un progetto')
+          Alert.alert('Attenzione','Selezionare un progetto')
         }else{
         let task = 1
         this.props.navigation.navigate('Search', {

@@ -60,7 +60,7 @@ let GiornataService = {
         // Se il task non è già presente lo aggiungo alla lista  
         p.task.push(mioTask)
         aggiornaTempo = parseInt(tempoAggiornato - p.tempoAttivita)
-        console.log(aggiornaTempo)
+        //console.log(aggiornaTempo)
         if((aggiornaTempo >=90) && (aggiornaTempo <=100) )
           aggiornaTempo -= 40
         else if((aggiornaTempo >=80) && (aggiornaTempo <=90) )

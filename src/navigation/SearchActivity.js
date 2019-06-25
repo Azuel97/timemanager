@@ -20,9 +20,17 @@ class SearchActivity extends React.Component {
       }
     });
 
+    // Setto lo state che conterrà i dati da visualizzare nella lista
+    constructor(props) {
+      super(props);
+      this.state = {
+        data: [],
+      };
+    }
+
     // Azione sul ckick degli item della Flatlist, ritorno alla Home
     getListViewItem = (item) => {  
-      // Controllo il valore passato per scegliere quale parametro ritornare all activity home
+      // Controllo il valore passato per scegliere quale parametro ritornare all activity
       if(datiTro === 0){
         this.props.navigation.navigate('Details', {
           myProject: item,
@@ -33,16 +41,6 @@ class SearchActivity extends React.Component {
         });
       }
     }
-
-    constructor(props) {
-      super(props);
-      
-      this.state = {
-        data: [],
-        task: ''
-      };
-    }
-
 
     // Funzione di filtraggio all'interno dell'array, su cui ci sono all'interno
     // tutti i dati recuperati dalla fetch
