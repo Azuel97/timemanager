@@ -4,25 +4,31 @@
       "id": "0",
       "name": "Davide Cenzi",
       "email": "davide.cenzi@develondigital.com",
-      "password": "qwerty"
+      "password": "MTIzNA=="
     },
     {
       "id": "1",
       "name": "Azuel Galiotto",
       "email": "azuel.galiotto@develondigital.com",
-      "password": "0000"
+      "password": "MTIzNA=="
     },
     {
       "id": "2",
       "name": "Mauro Icardi",
       "email": "mauro.icardi@develondigital.com",
-      "password": "wanda"
+      "password": "MTIzNA=="
     },
     {
       "id": "3",
       "name": "Lautaro Martinez",
       "email": "lautaro.martinez@develondigital.com",
-      "password": "toro"
+      "password": "MTIzNA=="
+    },
+    {
+      "id": "4",
+      "name": "Milan Skriniar",
+      "email": "milan.skriniar@develondigital.com",
+      "password": "MTIzNA=="
     }
   ],
   "task": [

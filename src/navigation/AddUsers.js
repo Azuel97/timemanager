@@ -69,8 +69,9 @@ class AddUser extends React.Component {
        else{
             // Cripto la password
             var pwdCriptata = encode(password);
+
             // Richiamo la funzione per aggiungere un utente
-            var inserimento = PeopleService.saveUser(new PeopleModel(email,pwdCriptata))
+            // var inserimento = PeopleService.saveUser(new PeopleModel(email,pwdCriptata))
 
             // POST -> vado a salvare il nuovo utente
             fetch('http://localhost:3031/user', {
@@ -83,7 +84,7 @@ class AddUser extends React.Component {
                     id: count.toString(),
                     name: nome,
                     email: email,
-                    password: password
+                    password: pwdCriptata
                 }),
             })
             .then((response) => console.log('fetchResponse', response))
@@ -91,11 +92,11 @@ class AddUser extends React.Component {
                 console.error('fetchError', error);
             });
 
-            if(inserimento == true)
+            // if(inserimento == true)
                 // Torna alla activity home
                 this.props.navigation.navigate('Home')
-            else
-                Alert.alert('Errore','Nome utente già esistente')
+            // else
+            //     Alert.alert('Errore','Nome utente già esistente')
        }
    }
  

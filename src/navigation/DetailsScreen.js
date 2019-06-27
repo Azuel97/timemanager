@@ -16,6 +16,7 @@ date = today.getDate();
 var mioTask
 var taskSalvato
 var mioProgetto
+var mioID
 
 class DetailsScreen extends React.Component {
 
@@ -566,7 +567,8 @@ class DetailsScreen extends React.Component {
         let task = 1
         this.props.navigation.navigate('Search', {
           visualizza: task,
-          progetto: mioProgetto
+          progetto: mioProgetto,
+          id: mioID
         });
       }
     }
@@ -637,6 +639,7 @@ class DetailsScreen extends React.Component {
     const { navigation } = this.props;
     mioTask = navigation.getParam('myTask', '');
     mioProgetto = navigation.getParam('myProject', '');
+    mioID = navigation.getParam('id','')
 
     return (
       <View style={{

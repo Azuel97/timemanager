@@ -8,6 +8,8 @@ import ProgettiModel from '../store/models/ProgettiModel'
 let progetti = ''
 let datiTro
 let progettoPassato
+let mioID
+let arrayTask = []
 
 class SearchActivity extends React.Component {
 
@@ -26,6 +28,10 @@ class SearchActivity extends React.Component {
       this.state = {
         data: [],
       };
+    }
+
+    componentDidMount() {
+      arrayTask = []
     }
 
     // Azione sul ckick degli item della Flatlist, ritorno alla Home
@@ -59,6 +65,25 @@ class SearchActivity extends React.Component {
         text: text,
       });
     }
+
+    findTask() {
+      return fetch('http://localhost:3031/task?assignee_id='+mioID)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            //console.log(responseJson.description)
+            count = responseJson.length
+            //console.log(count)
+            for(let i=0; i<count; i++){
+              //this.state.data.push(responseJson[i].description)
+              arrayTask.push(responseJson[i].description +' -> '+ responseJson[i].due_date)
+            }
+            //console.log(this.state.data)
+            //console.log(arrayTask)
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
   
     render() {
 
@@ -67,6 +92,7 @@ class SearchActivity extends React.Component {
       datiTro = navigation.getParam('visualizza', '');
       // Recupero il progetto scelto
       progettoPassato = navigation.getParam('progetto','')
+      mioID = navigation.getParam('id','')
 
       // Controllo il valore passato per determinare quali dati devo recuperare
       if(datiTro === 0){
@@ -74,9 +100,13 @@ class SearchActivity extends React.Component {
         this.state.data = progetti
         console.log(progetti)
       }else{
-        taskRicercati = ProgettiService.findTask(progettoPassato)
-        this.state.data = taskRicercati
-        console.log(taskRicercati)
+        // taskRicercati = ProgettiService.findTask(progettoPassato)
+        // this.state.data = taskRicercati
+        // console.log(taskRicercati)
+        this.findTask()
+        taskTrovati = arrayTask
+        console.log(taskTrovati)
+        this.state.data = taskTrovati
       }
 
       return (
